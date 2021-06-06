@@ -19,7 +19,8 @@ app.get('/',function(req,res){
 //needs to be moved to controllers soon..
 //get all guides from database
 app.get('/api/v1/guides',async(req,res)=>{
-    try{
+    try
+    {
         const results = await db.query('SELECT * FROM GUIDES');
         res.status(200).json({
             "status": res.statusCode,
@@ -58,19 +59,20 @@ app.post('/api/v1/guides',async(req,res)=>{
 
 //get guides by id
 app.get('/api/v1/guides/:id',async(req,res)=>{
-    try{
-    const results = await db.query('SELECT * FROM GUIDES WHERE GUIDE_ID = $1',[req.params.id])
-    res.status(200).json({
-        "status": res.statusCode,
-        "guide_details": results.rows[0]
-    })
+    try
+    {
+        const results = await db.query('SELECT * FROM GUIDES WHERE GUIDE_ID = $1',[req.params.id])
+        res.status(200).json({
+            "status": res.statusCode,
+            "guide_details": results.rows[0]
+        });
     }
     catch(err)
     {
         res.status(501).json({
             "status":res.statusCode,
             "response":err
-        })
+        });
     }
 });
 
@@ -85,8 +87,8 @@ app.delete('/api/v1/guides/:id',async(req,res)=>{
     }
     catch(err)
     {
-        console.log(req.params.id);
-        console.log(err);
+        //console.log(req.params.id);
+        //console.log(err);
         res.status(501).json({
             "status":res.statusCode,
             "response":err
