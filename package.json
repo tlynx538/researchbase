@@ -1,0 +1,19 @@
+{
+  "name": "researchbase",
+  "version": "1.0.0",
+  "description": "A Web Application to maintain and manage scholarly activities",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon index"
+  },
+  "author": "Vinayak Jaiwant",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "pg": "^8.6.0",
+    "pug": "^3.0.2"
+  }
+}
