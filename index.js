@@ -58,11 +58,20 @@ app.post('/api/v1/guides',async(req,res)=>{
 
 //get guides by id
 app.get('/api/v1/guides/:id',async(req,res)=>{
+    try{
     const results = await db.query('SELECT * FROM GUIDES WHERE GUIDE_ID = $1',[req.params.id])
     res.status(200).json({
         "status": res.statusCode,
         "guide_details": results.rows[0]
     })
+    }
+    catch(err)
+    {
+        res.status(501).json({
+            "status":res.statusCode,
+            "response":err
+        })
+    }
 });
 
 //delete guide by id
