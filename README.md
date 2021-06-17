@@ -7,6 +7,8 @@
     3. git clone https://github.com/tlynx538/researchbase
     4. cd researchbase/
     5. execute the sql dump present in the sql_dump folder using psql.
-    6. Change the user and password to postgres in .env file
-    7. npm run test
-    8. Go to http://localhost:8000 to view the application
+    6. Change the db user and password in .env file
+    6. npm run test
+    7. Go to http://localhost:8000 to view the application
+
+#### Future Upgrades: The database connection will be done remotely. 
