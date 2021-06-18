@@ -3,7 +3,7 @@
 
 #### How to run this application
     1. Install node.js 
-    2. Install postgresql
+    2. Install postgresql, make sure postgresql is running on port 5432
     3. git clone https://github.com/tlynx538/researchbase
     4. cd researchbase/sql-dumps
     5. psql -f <the sql dump file name>
