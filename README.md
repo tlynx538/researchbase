@@ -22,8 +22,11 @@
 [```GET```] http://<localhost:8000>/scholars - Shows the list of guides
 
 [```GET```] http://<localhost:8000>/scholars/type-any-number  - Shows a guide by id
-Example: <br> 
-http://<localhost:8000>/guides/1 <br>
+
+Example: 
+
+http://<localhost:8000>/guides/1 
+
 http://<localhost:8000>/scholars/2   
 #### POST Requests:
 [```POST```] http://<localhost:8000>/guides  - Adds a guide 
