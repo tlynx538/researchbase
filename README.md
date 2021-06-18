@@ -15,19 +15,25 @@
 
 ## Current API routes:
 #### GET Requests:
-[```GET```] http://<localhost:8000>/api/v1/guides - Shows the list of guides
+[```GET```] http://<localhost:8000>/guides - Shows the list of guides
 
-[```GET```] http://<localhost:8000>/api/v1/guides/type-any-number  - Shows a guide by id
+[```GET```] http://<localhost:8000>/guides/type-any-number  - Shows a guide by id
 
+[```GET```] http://<localhost:8000>/scholars - Shows the list of guides
+
+[```GET```] http://<localhost:8000>/scholars/type-any-number  - Shows a guide by id
 Example: <br> 
-http://<localhost:8000>/api/v1/guides/1 <br>
-http://<localhost:8000>/api/v1/guides/2   
+http://<localhost:8000>/guides/1 <br>
+http://<localhost:8000>/scholars/2   
 #### POST Requests:
-[```POST```] http://<localhost:8000>/api/v1/guides  - Adds a guide 
+[```POST```] http://<localhost:8000>/guides  - Adds a guide 
 
+[```POST```] http://<localhost:8000>/scholars  - Adds a scholar 
 #### DELETE Requests:
-[```DELETE```] http://<localhost:8000>/api/v1/guides/type-any-number - Delete a guide by id
-<br>
+[```DELETE```] http://<localhost:8000>/guides/type-any-number - Delete a guide by id
+
+
+[```DELETE```] http://<localhost:8000>/scholars/type-any-number - Delete a scholar by id
 
 Example: <br> 
 http://<localhost:8000>/api/v1/guides/1 <br>
