@@ -1,7 +1,7 @@
 ## Researchbase 
 ### A tool to notify and manage scholars
 
-#### How to run this application?
+#### How to install this application?
     1. Install node.js 
     2. Install postgresql, make sure postgresql is running on port 5432
     3. git clone https://github.com/tlynx538/researchbase
@@ -10,7 +10,7 @@
     6. cd .. 
     7. Rename sample.env to .env OR run mv sample.env .env   
     7. npm install    
-    7. npm run test
+    7. npm run test // use this to actually run the application
     8. Go to http://localhost:8000 to view the application
 
 ### Current API routes:
