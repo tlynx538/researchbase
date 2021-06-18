@@ -19,9 +19,9 @@
 
 [```GET```] http://<localhost:8000>/guides/type-any-number  - Shows a guide by id
 
-[```GET```] http://<localhost:8000>/scholars - Shows the list of guides
+[```GET```] http://<localhost:8000>/scholars - Shows the list of scholars
 
-[```GET```] http://<localhost:8000>/scholars/type-any-number  - Shows a guide by id
+[```GET```] http://<localhost:8000>/scholars/type-any-number  - Shows a scholar by id
 
 Example: 
 
