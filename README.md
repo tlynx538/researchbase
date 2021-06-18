@@ -16,6 +16,7 @@
 ### Current API routes:
 ##### GET Requests:
 http://<localhost:8000>/api/v1/guides [```GET```] - Shows the list of guides
+
 http://<localhost:8000>/api/v1/guides/<type-any-number> [```GET```] - Shows a guide by id
 
 ##### POST Requests:
