@@ -15,13 +15,13 @@
 
 ### Current API routes:
 ##### GET Requests:
-http://<localhost:8000>/api/v1/guides [```GET```] - Shows the list of guides
+[```GET```] http://<localhost:8000>/api/v1/guides - Shows the list of guides
 
-http://<localhost:8000>/api/v1/guides/<type-any-number> [```GET```] - Shows a guide by id
+[```GET```] http://<localhost:8000>/api/v1/guides/type-any-number  - Shows a guide by id
 
 ##### POST Requests:
-http://<localhost:8000>/api/v1/guides [```POST```] - Adds a guide 
+[```POST```] http://<localhost:8000>/api/v1/guides  - Adds a guide 
 
 ##### DELETE Requests:
-http://<localhost:8000>/api/v1/guides/<type-any-number> [```DELETE```] - Delete a guide by id
+[```DELETE```] http://<localhost:8000>/api/v1/guides/type-any-number - Delete a guide by id
 #### Future Upgrades: The database connection will be done remotely. 
