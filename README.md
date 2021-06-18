@@ -9,6 +9,15 @@
     5. execute the sql dump present in the sql_dump folder using psql.
         To do this type psql -f <the sql dump file name>
     6. Change the db user and password in .env file
+        The .env file used is
+``` 
+                PORT=8090;
+                PGHOST='localhost'
+                PGUSER=postgres
+                PGDATABASE=rbdb
+                PGPASSWORD=postgres
+                PGPORT=5432
+```    
     6. npm run test
     7. Go to http://localhost:8000 to view the application
 
