@@ -41,5 +41,7 @@ http://<localhost:8000>/api/v1/guides/2
 
 #### Note: 
     1. Use Postman to interact with the API requests.
+    Add the following link to test the above API's 
+    [Researchbase Collection](https://www.getpostman.com/collections/b6d2dae33a9fa84ad157)
     2. Add node.js and postgresql binaries to environment variables.
 #### Future Upgrades: The database connection will be done remotely. 
