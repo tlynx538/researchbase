@@ -39,8 +39,8 @@ http://<localhost:8000>/scholars/2
 [```DELETE```] http://<localhost:8000>/scholars/type-any-number - Delete a scholar by id
 
 Example: <br> 
-http://<localhost:8000>/api/v1/guides/1 <br>
-http://<localhost:8000>/api/v1/guides/2   
+http://<localhost:8000>/guides/1 <br>
+http://<localhost:8000>/scholars/2   
 
 #### Note: 
 1. Use Postman to interact with the API requests.
