@@ -16,7 +16,7 @@
 
 #### Sample .env file 
 ``` 
-                PORT=8090;
+                PORT=8090
                 PGHOST='localhost'
                 PGUSER=postgres
                 PGDATABASE=rbdb
