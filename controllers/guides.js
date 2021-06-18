@@ -1,25 +1,7 @@
-require('dotenv').config();
 const express = require('express');
-const morgan = require('morgan');
+const db = require('../db');
 
-const app = express();
-const port = process.env.port || 8000;
-const guideRoutes = require('./routes/guides')
-const scholarRoutes = require('./routes/scholars')
-app.set('view engine','pug');
-app.use(express.json());
-app.use(morgan('tiny'));
-app.use('/guides/',guideRoutes);
-app.use('/scholars/',scholarRoutes);
-//main page
-app.get('/',function(req,res){
-    res.render('index');
-});
-
-/*
-//needs to be moved to controllers soon..
-//get all guides from database
-app.get('/api/v1/guides',async(req,res)=>{
+const getGuides = async(req,res)=>{
     try
     {
         const results = await db.query('SELECT * FROM GUIDES');
@@ -33,16 +15,15 @@ app.get('/api/v1/guides',async(req,res)=>{
         res.status(501).json({
             "status":res.statusCode,
             "message":err
-        })
+        });
     }
 
-});
+}
 
-//add guides to database
-app.post('/api/v1/guides',async(req,res)=>{
+const postGuides = async(req,res)=>{
     try 
     {
-        const results = await db.query('INSERT INTO GUIDES (GUIDE_NAME,GUIDE_EMAIL,GUIDE_PHONE) values ($1,$2,$3) RETURNING *',[req.body.guide_name,req.body.guide_email,req.body.guide_phone]);
+        const results = await db.query('INSERT INTO GUIDES (GUIDE_NAME,GUIDE_EMAIL,GUIDE_PHONE, GUIDE_PASSWORD) values ($1,$2,$3,$4) RETURNING *',[req.body.guide_name,req.body.guide_email,req.body.guide_phone,req.body.guide_password]);
         res.status(200).json({
             "status": res.status,
             "response": results.rows[0]
@@ -55,11 +36,9 @@ app.post('/api/v1/guides',async(req,res)=>{
             "response":err
         });
     }
-});
+}
 
-
-//get guides by id
-app.get('/api/v1/guides/:id',async(req,res)=>{
+const getGuideById = async(req,res) =>{
     try
     {
         const results = await db.query('SELECT * FROM GUIDES WHERE GUIDE_ID = $1',[req.params.id])
@@ -75,10 +54,9 @@ app.get('/api/v1/guides/:id',async(req,res)=>{
             "response":err
         });
     }
-});
+}
 
-//delete guide by id
-app.delete('/api/v1/guides/:id',async(req,res)=>{
+const delGuide = async(req,res)=>{
     try {
         const results = await db.query('DELETE FROM GUIDES WHERE GUIDE_ID = $1 RETURNING *',[req.params.id]);
         res.status(410).json({
@@ -94,10 +72,10 @@ app.delete('/api/v1/guides/:id',async(req,res)=>{
             "status":res.statusCode,
             "response":err
         });
-    }    
+    } 
+}
 
-})
-*/
-app.listen(port, function(req,res){
-    console.log(`The app is listening on http://localhost:${port}`);
-})
+
+module.exports = {
+    getGuides, postGuides, getGuideById, delGuide
+}
