@@ -8,7 +8,7 @@
     4. cd researchbase/sql-dumps
     5. psql -f <the sql dump file name>
     6. cd .. 
-    7. Rename sample.env to .env OR run mv sample.env .env   
+    7. Rename sample.env to .env OR mv sample.env .env   
     7. npm install    
     7. npm run test // use this to actually run the application
     8. Go to http://localhost:8000 to view the application
