@@ -33,5 +33,7 @@ Example: <br>
 http://<localhost:8000>/api/v1/guides/1 <br>
 http://<localhost:8000>/api/v1/guides/2   
 
-#### Note: Use Postman to interact with the API requests
+#### Note: 
+    1. Use Postman to interact with the API requests.
+    2. Add node.js and postgresql binaries to environment variables.
 #### Future Upgrades: The database connection will be done remotely. 
