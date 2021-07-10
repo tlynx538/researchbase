@@ -1,6 +1,21 @@
-doctype html
-html 
-    head 
-        style include css/style.css 
-    body 
-        h1 Welcome to Researchbase     
+extends layout
+
+block content
+    body
+        div(class="container position-absolute")
+            h1 Researchbase
+            p Managing Scholars, made easier. 
+            div(class="row row-cols-2")
+                div(class="p-3 col")
+                    h3 Join as a Scholar
+                    p Join and Enjoy the benefits of being an informed scholar
+                    a(class="btn btn-outline-primary btn-block",href="/scholars/signup") Sign Up as Scholar 
+                    |
+                    |
+                    a(class="btn btn-outline-primary btn-block",href="/scholars/login") Login as Scholar
+                div(class="p-3 col")
+                    h3 Login as Guide
+                    p Guide your scholars in creating the perfect thesis.
+                    a(class="btn btn-outline-primary btn-block",href="/guides/login") Login as Guide      
+
+

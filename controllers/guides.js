@@ -1,6 +1,11 @@
 const express = require('express');
 const db = require('../db');
 
+
+const login = (req,res)=>{
+    res.render('../views/guides/login', {title: 'Sign In as Guide'})
+}
+
 const getGuides = async(req,res)=>{
     try
     {
@@ -77,5 +82,5 @@ const delGuide = async(req,res)=>{
 
 
 module.exports = {
-    getGuides, postGuides, getGuideById, delGuide
+    login, getGuides, postGuides, getGuideById, delGuide
 }

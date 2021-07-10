@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+    body 
+        div(class="position-absolute top-50 start-50 translate-middle") 
+            form(method="GET", action="/scholars/logout",class="form-signin")  
+                h1(class="h3 mb-3 font-weight-normal") Welcome! #{user}
+                div(class="pt-3")  
+                    button(class="btn btn-outline-primary btn-block",type="submit") Logout    
