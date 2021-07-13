@@ -91,6 +91,7 @@ const postSignUp = async(req,res)=>{
     {
       var hash = await bcrypt.hashSync(req.body.password,salt);
       var results = await db.query('INSERT INTO SCHOLAR (scholar_email,scholar_password) values ($1,$2) RETURNING *',[req.body.username,hash]);
+      req.session.user=req.body.username;
       res.redirect('/scholars/register');
     }
   
