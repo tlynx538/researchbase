@@ -1,15 +1,9 @@
-extends ../layout
-
-block content
-    body 
-        nav(class="navbar navbar-light bg-dark")
-            div(class="container")
-                a(class="navbar-brand",style="color:#fff",href="/admin/dashboard") Researchbase 
-                |
-                |
-                a(class="btn btn-outline-primary",href="/admin/logout") Logout
-        div(class="d-flex flex-column flex-shrink-0 p-3 bg-light",style="width: 200px"): ul(class="nav nav-pills flex-column mb-auto")
-            li(class="nav-item")
-                a(class="nav-link link-dark",href="#") Search Scholars    
-            li(class="nav-item")
-                a(class="nav-link link-dark",href="#") Delete Scholar    
+extends adminLayout
+block content 
+    div(class="p-3 col")                                              
+        main(class="jumbotron jumbotron-fluid")
+            h1(class="display-4") Welcome to the Admin Interface
+            p(class="lead") This Interface will allow you to control the users
+            hr(class="my-4") 
+     
+      

@@ -1,9 +1,11 @@
 extends ../layout
 
 block content
-    body 
+    body
+        nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
+            .container-fluid
+                a(class="navbar-brand",href="#") Researchbase          
+            div(class="p-2")                  
+                a(class="btn btn-outline-primary",href="/scholars/logout") Logout 
         div(class="position-absolute top-50 start-50 translate-middle") 
-            form(method="GET", action="/scholars/logout",class="form-signin")  
-                h1(class="h3 mb-3 font-weight-normal") Welcome! #{user}
-                div(class="pt-3")  
-                    button(class="btn btn-outline-primary btn-block",type="submit") Logout    
+            h1(class="h3 mb-3 font-weight-normal") Welcome! #{user}    

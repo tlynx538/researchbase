@@ -1,0 +1,49 @@
+extends ../layout
+
+block content
+    body 
+        nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
+            .container-fluid
+                a(class="navbar-brand",href="#") Researchbase          
+            div(class="p-2")                  
+                a(class="btn btn-outline-primary",href="/admin/logout") Logout
+
+
+        div(class="container-fluid")
+            div(class="row")
+                div(class="flex-shrink-0 p-3 text-white bg-primary",style="width: 200px") 
+                    hr(class="my-4")
+                    ul(class="nav nav-pills flex-column mb-auto")
+                        h5(class="text-white") User Specific Options
+                        hr
+                        li(class="dropdown")
+                            button(class="btn nav-item dropdown-toggle",type="button",id="dropdownMenuButton1",data-bs-toggle="dropdown",aria-expanded="false",style="color:#fff") Scholars 
+                            ul(class="dropdown-menu",aria-labelledby="dropdownMenuButton1")
+                                li
+                                    a(class="dropdown-item", href='#') Search 
+                                li
+                                    a(class="dropdown-item", href='#') Delete
+                                li 
+                                    a(class="dropdown-item", href='#') Update
+                        li(class="dropdown")             
+                            button(class="btn nav-item dropdown-toggle",type="button",id="dropdownMenuButton1",data-bs-toggle="dropdown",aria-expanded="false",style="color:#fff") Guides 
+                            ul(class="dropdown-menu",aria-labelledby="dropdownMenuButton1")
+                                li
+                                    a(class="dropdown-item", href='#') Search
+                                li
+                                    a(class="dropdown-item", href='#') Create      
+                                li
+                                    a(class="dropdown-item", href='#') Delete
+                                li 
+                                    a(class="dropdown-item", href='#') Update
+                        hr(class="my-4")
+                        ul(class="nav nav-pills flex-column mb-auto")
+                        h5(class="text-white") Analytics
+                        hr
+                div(class="p-3 col")                                              
+                    main(class="jumbotron jumbotron-fluid")
+                        h1(class="display-4") Welcome to the Admin Interface
+                        p(class="lead") This Interface will allow you to control the users
+                        hr(class="my-4") 
+     
+      

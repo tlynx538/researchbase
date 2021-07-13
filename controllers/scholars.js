@@ -1,8 +1,8 @@
 const express = require('express');
-const db = require('../db');
+const db = require('../utils/db');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(12);
-
+const transporter = require('../utils/mail');
 
 const login = (req,res) =>{
     res.render('../views/scholars/login.pug',{title: 'Sign In as Scholar'});
@@ -61,7 +61,15 @@ const dashboard = async(req,res) => {
         try 
         {
             var results = await db.query('UPDATE SCHOLAR SET scholar_name=$1, scholar_phone=$2, scholar_usn=$3, is_scholar_registered=true WHERE scholar_email=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user]);
-            res.send("Registration Successful");
+            try 
+            { 
+                sendScholarMail(req.session.user,"Thank you for registering on Researchbase!",`Dear ${req.body.name}, \nThank you for registering on Researchbase. Hope you have a great experience.`);
+            }
+            catch(err)
+            {
+                console.log(err);
+            }    
+            res.redirect('/scholar/dashboard');
         }
         catch(err)
         {
@@ -105,7 +113,24 @@ const logout = (req,res) =>{
       });
 }
 
+function sendScholarMail (to,subject,body)
+{
+    var mailOptions =
+    {
+        from: 'mail.researchbase@gmail.com',
+        to: to,
+        subject: subject,
+        text: body
+    };
 
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      }); 
+}
 
 
 

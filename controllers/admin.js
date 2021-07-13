@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('../db');
+const db = require('../utils/db');
 
 const login = async(req,res)=>{
     res.render('../views/admin/login',{title: "Sign In"});
@@ -10,12 +10,22 @@ const postLogin = (req,res)=> {
         if(req.body.username == "admin@researchbase" && req.body.password == "admin")
         {
             req.session.user = req.body.username;
-            res.render('../views/admin/dashboard',{user:'admin'});
+            res.redirect('/admin/dashboard');
         }    
     }
     catch(err)
     {
         console.log(err);
+    }
+}
+const dashboard = async(req,res)=>{
+    if(req.session.user)
+    {
+        res.render('../views/admin/dashboard',{user:'admin'});
+    }
+    else 
+    {
+        res.send("Operation Invalid")
     }
 }
 const logout = async(req,res) => {
@@ -30,4 +40,12 @@ const logout = async(req,res) => {
         }
       });
 }
-module.exports = { login, postLogin, logout };
+
+
+const scholarDeleteGet = (req,res) =>{
+    res.render('../views/admin/scholars/delete')
+}
+
+
+
+module.exports = { login, postLogin,scholarDeleteGet,dashboard, logout };
