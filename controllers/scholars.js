@@ -69,7 +69,7 @@ const dashboard = async(req,res) => {
             {
                 console.log(err);
             }    
-            res.redirect('/scholar/dashboard');
+            res.redirect('/scholars/dashboard');
         }
         catch(err)
         {
@@ -91,7 +91,7 @@ const postSignUp = async(req,res)=>{
     {
       var hash = await bcrypt.hashSync(req.body.password,salt);
       var results = await db.query('INSERT INTO SCHOLAR (scholar_email,scholar_password) values ($1,$2) RETURNING *',[req.body.username,hash]);
-      res.send("User Created!");
+      res.redirect('/scholars/register');
     }
   
     catch(err)
@@ -200,17 +200,11 @@ const getScholarById = async(req,res) =>{
 const delScholar = async(req,res)=>{
     try {
         const results = await db.query('DELETE FROM SCHOLAR WHERE SCHOLAR_ID = $1 RETURNING *',[req.params.id]);
-        res.status(410).json({
-            "status": res.statusCode,
-            "response":results.rows
-        });
+        res.redirect('/admin/dashboard/scholars/delete')
     }
     catch(err)
     {
-        res.status(501).json({
-            "status":res.statusCode,
-            "response":err
-        });
+        console.log(err);
     } 
 }
 

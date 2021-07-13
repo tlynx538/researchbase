@@ -14,5 +14,5 @@ router.get('/logout',scholarControllers.logout);
 router.get('/',scholarControllers.getScholars);
 router.get('/:id',scholarControllers.getScholarById);
 router.post('/',scholarControllers.postScholar);
-router.delete('/delete/:id',scholarControllers.delScholar);
+router.get('/delete/:id',scholarControllers.delScholar);
 module.exports = router;

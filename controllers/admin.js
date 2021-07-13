@@ -41,11 +41,15 @@ const logout = async(req,res) => {
       });
 }
 
-
-const scholarDeleteGet = (req,res) =>{
-    res.render('../views/admin/scholars/delete')
+showAllScholars = async() => {
+    const results = await db.query("SELECT * FROM SCHOLAR");
+    console.log(results.rows);
+    return results.rows;
 }
 
-
+const scholarDeleteGet = async(req,res) =>{
+    results = await showAllScholars();
+    res.render('../views/admin/scholars/delete',{results: results})
+}
 
 module.exports = { login, postLogin,scholarDeleteGet,dashboard, logout };

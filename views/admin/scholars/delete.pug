@@ -2,6 +2,22 @@ extends ../adminLayout
 block content 
     div(class="p-3 col")                                              
         main(class="jumbotron jumbotron-fluid")
-            h1(class="display-4") Delete Scholar(s)
-            p(class="lead") Use the below search bar to remove scholars
-            hr(class="my-4")
+            h1(class="display-4") Edit Scholar(s)
+            p(class="lead") Use the below search bar to edit or delete one or more scholars
+        div(class="input-group rounded")
+          input(type="search", class="form-control rounded", placeholder="Search by User Name",name="search" aria-label="Search",aria-describedby="search-addon")
+          span(class="input-group-text border-0", id="search-addon")
+            i(class="bi bi-search")
+        hr    
+        div(class="container-fluid")
+          each item in results
+              div(class="border border-light")
+                div(class="bg-light p-2")
+                  div(class="row")
+                    div(class="col")
+                      p #{item.scholar_name}
+                    div(class="col-lg-1")  
+                      a(class="btn btn-outline-warning",href='#') Update                      
+                    div(class="col-lg-1")  
+                      a(class="btn btn-outline-danger",href='/scholars/delete/' +item.scholar_id) Delete 
+                  p(class="text-muted") #{item.scholar_email} 
