@@ -3,12 +3,11 @@ extends ../layout
 block content
     body 
         div(class="position-absolute top-50 start-50 translate-middle") 
-            form(method="POST", action="/guides/login",class="form-signin")  
+            form(method="POST", action="/guides/signup",class="form-signin")  
                 h1(class="h3 mb-3 font-weight-normal")= title
                 label(class="sr-only") Email
                 input(type="email",for="inputEmail",name="username",placeholder="john@example.com",class="form-control")   
                 label(class="sr-only pt-1") Password        
                 input(type="password",for="inputPassword",name="password",placeholder="",aria-label="Password",class="form-control")
                 div(class="pt-3")  
-                    button(class="btn btn-outline-primary btn-block",type="submit") Login
-                    
+                    button(class="btn btn-outline-primary btn-block",type="submit") Register    

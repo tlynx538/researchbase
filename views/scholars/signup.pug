@@ -9,5 +9,15 @@ block content
                 input(type="email",for="inputEmail",name="username",placeholder="john@example.com",class="form-control")   
                 label(class="sr-only pt-1") Password        
                 input(type="password",for="inputPassword",name="password",placeholder="",aria-label="Password",class="form-control")
+                hr
+                label(class="sr-only pt-2") Choose your guide 
+                div(class="input-group mb-3")
+                    div(class="input-group-prepend")
+                        label(class="input-group-text",for="inputGroupSelect01") Dr
+                    select(class="form-select",aria-label="Default select example",name="guide")
+                        option(selected)
+                            div(class="text-muted") Click here to Select  
+                        each item in guide_list
+                            option(value=item.guide_id) #{item.guide_name} 
                 div(class="pt-3")  
                     button(class="btn btn-outline-primary btn-block",type="submit") Register    

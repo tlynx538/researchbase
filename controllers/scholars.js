@@ -82,15 +82,16 @@ const dashboard = async(req,res) => {
       }
   }
 
-const signUp = (req,res) =>{
-    res.render('../views/scholars/signup',{title: 'Sign Up as Scholar'});
+const signUp = async(req,res) =>{
+    guide_list = await showAllGuides();
+    res.render('../views/scholars/signup',{title: 'Sign Up as Scholar',guides:guide_list});
 }
 
 const postSignUp = async(req,res)=>{
     try
     {
       var hash = await bcrypt.hashSync(req.body.password,salt);
-      var results = await db.query('INSERT INTO SCHOLAR (scholar_email,scholar_password) values ($1,$2) RETURNING *',[req.body.username,hash]);
+      var results = await db.query('INSERT INTO SCHOLAR (scholar_email,scholar_password,scholar_guide_id) values ($1,$2,$3) RETURNING *',[req.body.username,hash,req.body.guide]);
       req.session.user=req.body.username;
       res.redirect('/scholars/register');
     }
@@ -133,7 +134,10 @@ function sendScholarMail (to,subject,body)
       }); 
 }
 
-
+const showAllGuides = async() =>{
+    const guides = await db.query("SELECT guide_id,guide_name FROM GUIDES");
+    return guides.rows;
+}
 
 
 
