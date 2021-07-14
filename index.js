@@ -33,6 +33,9 @@ app.use('/admin/',adminRoutes);
 app.get('/',function(req,res){
     res.render('index');
 });
+app.get('/devs',(req,res)=>{
+    res.render('developers');
+})
 
 //telling the server to listen on a specific port.
 app.listen(port, function(req,res){
