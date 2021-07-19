@@ -5,21 +5,26 @@ const salt = bcrypt.genSaltSync(12);
 const transporter = require('../utils/mail');
 
 const login = (req,res) => {
-    res.render('../views/guides/login.pug',{title: 'Sign In as guide'});
+    res.render('../views/guides/login.pug',{title: 'Sign In as Guide',message: ''});
 }
 
 const postLogin = async(req,res) => {
     try{
         const results = await db.query('SELECT guide_email,guide_password FROM guides WHERE guide_email = $1',[req.body.username]);
-        var username = results.rows[0]['guide_email'];
-        var hash = results.rows[0]['guide_password'];
-        if(req.body.username == username && await bcrypt.compareSync(req.body.password,hash))
+        if(results.rows.length >0)
         {
-          req.session.user=req.body.username;
-          res.redirect('/guides/dashboard');
+            var username = results.rows[0]['guide_email'];
+            var hash = results.rows[0]['guide_password'];
+            if(req.body.username == username && await bcrypt.compareSync(req.body.password,hash))
+            {
+                req.session.user=req.body.username;
+                res.redirect('/guides/dashboard');
+            }
+            else 
+                res.render('../views/guides/login.pug',{title: 'Sign In as Guide',message: "Your email or password is incorrect"});
         }
         else 
-          res.redirect('/guides/login');  
+            res.render('../views/guides/login.pug',{title: 'Sign In as Guide',message: "This user does not exist"}); 
     }
     catch(err)
     {

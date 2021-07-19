@@ -5,21 +5,28 @@ const salt = bcrypt.genSaltSync(12);
 const transporter = require('../utils/mail');
 
 const login = (req,res) =>{
-    res.render('../views/scholars/login.pug',{title: 'Sign In as Scholar'});
+    res.render('../views/scholars/login.pug',{title: 'Sign In as Scholar',message:''});
 }
 
 const postLogin = async(req,res) => {
     try{
         const results = await db.query('SELECT scholar_email,scholar_password FROM scholar WHERE scholar_email = $1',[req.body.username]);
-        var username = results.rows[0]['scholar_email'];
-        var hash = results.rows[0]['scholar_password'];
-        if(req.body.username == username && await bcrypt.compareSync(req.body.password,hash))
+        if(results.rows.length > 0)
         {
-          req.session.user=req.body.username;
-          res.redirect('/scholars/dashboard');
+            var username = results.rows[0]['scholar_email'];
+            var hash = results.rows[0]['scholar_password'];
+            if(req.body.username == username && await bcrypt.compareSync(req.body.password,hash))
+            {
+                req.session.user=req.body.username;
+                res.redirect('/scholars/dashboard');
+            }
+            else 
+            res.render('../views/scholars/login',{title: 'Sign In as Scholar',message: "Your email or password is incorrect"});
         }
-        else 
-          res.redirect('/scholars/login');  
+        else
+        {
+            res.render('../views/scholars/login',{title: 'Sign In as Scholar',message: "This user does not exist"})
+        }  
     }
     catch(err)
     {
