@@ -1,8 +1,8 @@
 const express = require('express');
-const db = require('../utils/db');
+const db = require('../../utils/db');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(12);
-const transporter = require('../utils/mail');
+const transporter = require('../../utils/mail');
 
 const login = (req,res) => {
     res.render('../views/guides/login.pug',{title: 'Sign In as Guide',message: ''});
@@ -31,23 +31,6 @@ const postLogin = async(req,res) => {
         console.log(err);
     }
 }
-
-const dashboard = async(req,res) => {
-    if(req.session.user)
-    {
-      const results = await db.query('SELECT admin_approve,is_guide_registered FROM guides WHERE guide_email=$1',[req.session.user]);
-      console.log(results.rows[0]);
-      if(results.rows[0].is_guide_registered == true )
-        res.render('../views/guides/dashboard.pug',{user:req.session.user});
-      else 
-        res.redirect('/guides/register');
-    }
-
-    else {
-      console.log(req.session.user);
-      res.send("Error: Unauthorized User!");
-    }
-  }
 
   const getRegistration = async(req,res) =>{
       if(req.session.user)
@@ -127,11 +110,14 @@ const showAllColleges = async() => {
     return colleges.rows;
 }
 const showAllDepartments = async() => {
-    const colleges = await db.query("SELECT department_id,department_name FROM DEPARTMENT");
-    return colleges.rows;
+    const departments = await db.query("SELECT department_id,department_name FROM DEPARTMENT");
+    return departments.rows;
 }
 
-
+const showAllScholars = async(guide_id) => {
+    const scholar = await db.query("SELECT * FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1",[guide_id]);
+    return scholar.rows;
+}
 
 // API Routes
 const getGuides = async(req,res)=>{
@@ -199,8 +185,6 @@ const delGuide = async(req,res)=>{
     }
     catch(err)
     {
-        //console.log(req.params.id);
-        //console.log(err);
         res.status(501).json({
             "status":res.statusCode,
             "response":err
@@ -227,5 +211,5 @@ function sendGuidesMail (to,subject,body)
 }
 
 module.exports = {
-    getGuides, dashboard ,getRegistration,postRegistration,login, signUp, postSignUp, logout, postLogin, getGuides, postGuides, getGuideById, delGuide
+    getGuides, getRegistration,postRegistration,login, signUp, postSignUp, logout, postLogin, getGuides, postGuides, getGuideById, delGuide
 }
