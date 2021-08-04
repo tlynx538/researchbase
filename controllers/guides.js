@@ -35,15 +35,12 @@ const postLogin = async(req,res) => {
 const dashboard = async(req,res) => {
     if(req.session.user)
     {
-      const results = await db.query('SELECT admin_approve FROM guides WHERE guide_email=$1',[req.session.user]);
-      if(results.rows[0].is_guide_registered == false )
-      {
-          res.redirect('/guides/register');
-      }
-      else 
-      {
+      const results = await db.query('SELECT admin_approve,is_guide_registered FROM guides WHERE guide_email=$1',[req.session.user]);
+      console.log(results.rows[0]);
+      if(results.rows[0].is_guide_registered == true )
         res.render('../views/guides/dashboard.pug',{user:req.session.user});
-      }
+      else 
+        res.redirect('/guides/register');
     }
 
     else {
@@ -70,7 +67,8 @@ const dashboard = async(req,res) => {
       {
         try 
         {
-            var results = await db.query('UPDATE guides SET guide_name=$1, guide_phone=$2, guide_usn=$3,is_guide_registered=true WHERE guide_email=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user]);
+            console.log(req.body);
+            var results = await db.query('UPDATE guides SET guide_name=$1, guide_phone=$2, guide_usn=$3, guide_college_id=$5, guide_department_id=$6, is_guide_registered=true WHERE guide_email=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user,req.body.college,req.body.department]);
             try 
             { 
                 sendGuidesMail(req.session.user,"Thank you for registering on Researchbase!",`Dear ${req.body.name}, \nThank you for registering on Researchbase. Hope you have a great experience.`);

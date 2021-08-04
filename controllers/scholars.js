@@ -38,24 +38,22 @@ const dashboard = async(req,res) => {
     if(req.session.user)
     {
       const results = await db.query('SELECT is_scholar_registered FROM SCHOLAR WHERE scholar_email=$1',[req.session.user]);
-      if(results.rows[0].is_scholar_registered == false )
-      {
-          res.redirect('/scholars/register');
-      }
-      else 
-      {
+      if(results.rows[0].is_scholar_registered == true )
         res.render('../views/scholars/dashboard.pug',{user:req.session.user});
-      }
+      else 
+        res.redirect('/scholars/register');
     }
     else {
       console.log(req.session.user);
       res.send("Error: Unauthorized User!");
     }
   }
-  const getRegistration = (req,res) =>{
+  const getRegistration = async(req,res) =>{
       if(req.session.user)
       {
-        res.render('../views/scholars/register.pug');
+        college_list = await showAllColleges();
+        department_list = await showAllDepartments();
+        res.render('../views/scholars/register.pug',{college: college_list,department: department_list});
       }
       else 
       {
@@ -67,7 +65,7 @@ const dashboard = async(req,res) => {
       {
         try 
         {
-            var results = await db.query('UPDATE SCHOLAR SET scholar_name=$1, scholar_phone=$2, scholar_usn=$3, is_scholar_registered=true WHERE scholar_email=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user]);
+            var results = await db.query('UPDATE SCHOLAR SET scholar_name=$1, scholar_phone=$2, scholar_usn=$3, scholar_college_id=$5, scholar_department_id=$6 is_scholar_registered=true WHERE scholar_email=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user,req.body.college,req.body.department]);
             try 
             { 
                 sendScholarMail(req.session.user,"Thank you for registering on Researchbase!",`Dear ${req.body.name}, \nThank you for registering on Researchbase. Hope you have a great experience.`);
@@ -146,6 +144,15 @@ const showAllGuides = async() =>{
     return guides.rows;
 }
 
+
+const showAllColleges = async() => {
+    const colleges = await db.query("SELECT college_id,college_name FROM COLLEGE");
+    return colleges.rows;
+}
+const showAllDepartments = async() => {
+    const colleges = await db.query("SELECT department_id,department_name FROM DEPARTMENT");
+    return colleges.rows;
+}
 
 
 
