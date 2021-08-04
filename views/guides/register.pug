@@ -15,5 +15,20 @@ block content
                 div(class="mb-3")
                     label(class="form-label") USN 
                     input(type="text",name="usn",placeholder="2KLXXXXXX",class="form-control")
+                hr
+                label(class="sr-only pt-2") College 
+                div(class="input-group mb-3")
+                    select(class="form-select",aria-label="Default select example",name="college")
+                        option(selected)
+                            div(class="text-muted") Click here to Select  
+                        each item in college_list
+                            option(value=item.college_id) #{item.college_name}
+                label(class="sr-only pt-2") Department 
+                div(class="input-group mb-3")
+                    select(class="form-select",aria-label="Default select example",name="department")
+                        option(selected)
+                            div(class="text-muted") Click here to Select  
+                        each item in department_list
+                            option(value=item.college_id) #{item.department_name}                                   
                 div(class="pt-3")  
                     button(class="btn btn-outline-primary btn-block",type="submit") Register                     

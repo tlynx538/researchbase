@@ -52,10 +52,12 @@ const dashboard = async(req,res) => {
     }
   }
 
-  const getRegistration = (req,res) =>{
+  const getRegistration = async(req,res) =>{
       if(req.session.user)
       {
-        res.render('../views/guides/register.pug');
+        college_list = await showAllColleges();
+        department_list = await showAllDepartments();
+        res.render('../views/guides/register.pug',{college: college_list,department: department_list});
       }
       else 
       {
@@ -90,7 +92,7 @@ const dashboard = async(req,res) => {
       }
   }
 
-const signUp = (req,res) =>{
+const signUp = async(req,res) =>{
     res.render('../views/guides/signup',{title: 'Sign Up as Guide'});
 }
 
@@ -121,6 +123,16 @@ const logout = (req,res) =>{
         }
       });
 }
+
+const showAllColleges = async() => {
+    const colleges = await db.query("SELECT college_id,college_name FROM COLLEGE");
+    return colleges.rows;
+}
+const showAllDepartments = async() => {
+    const colleges = await db.query("SELECT department_id,department_name FROM DEPARTMENT");
+    return colleges.rows;
+}
+
 
 
 // API Routes
