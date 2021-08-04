@@ -10,14 +10,15 @@ const login = (req,res) => {
 
 const postLogin = async(req,res) => {
     try{
-        const results = await db.query('SELECT guide_email,guide_password FROM guides WHERE guide_email = $1',[req.body.username]);
+        const results = await db.query('SELECT guide_id,guide_email,guide_password FROM guides WHERE guide_email = $1',[req.body.username]);
         if(results.rows.length >0)
         {
             var username = results.rows[0]['guide_email'];
             var hash = results.rows[0]['guide_password'];
+            var guide_id = results.rows[0]['guide_id'];
             if(req.body.username == username && await bcrypt.compareSync(req.body.password,hash))
             {
-                req.session.user=req.body.username;
+                req.session.user=guide_id;
                 res.redirect('/guides/dashboard');
             }
             else 
@@ -50,8 +51,7 @@ const postLogin = async(req,res) => {
       {
         try 
         {
-            console.log(req.body);
-            var results = await db.query('UPDATE guides SET guide_name=$1, guide_phone=$2, guide_usn=$3, guide_college_id=$5, guide_department_id=$6, is_guide_registered=true WHERE guide_email=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user,req.body.college,req.body.department]);
+            var results = await db.query('UPDATE guides SET guide_name=$1, guide_phone=$2, guide_usn=$3, guide_college_id=$5, guide_department_id=$6, is_guide_registered=true WHERE guide_id=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user,req.body.college,req.body.department]);
             try 
             { 
                 sendGuidesMail(req.session.user,"Thank you for registering on Researchbase!",`Dear ${req.body.name}, \nThank you for registering on Researchbase. Hope you have a great experience.`);
@@ -114,7 +114,7 @@ const showAllDepartments = async() => {
     return departments.rows;
 }
 
-const showAllScholars = async(guide_id) => {
+const showAllScholarsbyGuide = async(guide_id) => {
     const scholar = await db.query("SELECT * FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1",[guide_id]);
     return scholar.rows;
 }

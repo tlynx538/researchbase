@@ -48,6 +48,8 @@ const dashboard = async(req,res) => {
       res.send("Error: Unauthorized User!");
     }
   }
+
+
   const getRegistration = async(req,res) =>{
       if(req.session.user)
       {
@@ -60,12 +62,13 @@ const dashboard = async(req,res) => {
           res.send("Error 404: Not Logged In");
       }
   }
+
   const postRegistration = async(req,res) => {
       if(req.session.user)
       {
         try 
         {
-            var results = await db.query('UPDATE SCHOLAR SET scholar_name=$1, scholar_phone=$2, scholar_usn=$3, scholar_college_id=$5, scholar_department_id=$6 is_scholar_registered=true WHERE scholar_email=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user,req.body.college,req.body.department]);
+            var results = await db.query('UPDATE SCHOLAR SET scholar_name=$1, scholar_phone=$2, scholar_usn=$3, scholar_college_id=$5, scholar_department_id=$6, is_scholar_registered=true WHERE scholar_email=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user,req.body.college,req.body.department]);
             try 
             { 
                 sendScholarMail(req.session.user,"Thank you for registering on Researchbase!",`Dear ${req.body.name}, \nThank you for registering on Researchbase. Hope you have a great experience.`);

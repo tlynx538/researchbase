@@ -1,0 +1,16 @@
+extends ../guideLayout 
+block content 
+    div(class="p-3 col")
+        main(class="jumbotron jumbotron-fluid")
+            h1(class="display-4") Approve Scholar(s)
+            p(class="lead") This list of scholars may be needing your approval.   
+        div(class="container-fluid")
+          each item in scholars_list
+              div(class="border border-light")
+                div(class="bg-light p-2")
+                  div(class="row")
+                    div(class="col")
+                      p #{item.scholar_name}
+                    div(class="col-lg-1")  
+                      a(class="btn btn-outline-primary",href='/guides/approve/'+item.scholar_id) Approve                      
+                  p(class="text-muted") #{item.scholar_email}                       
