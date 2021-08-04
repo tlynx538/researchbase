@@ -91,7 +91,7 @@ const dashboard = async(req,res) => {
   }
 
 const signUp = (req,res) =>{
-    res.render('../views/guides/signup',{title: 'Sign Up as guide'});
+    res.render('../views/guides/signup',{title: 'Sign Up as Guide'});
 }
 
 const postSignUp = async(req,res)=>{
