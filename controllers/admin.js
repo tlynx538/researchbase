@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../utils/db');
-
+const {v4:uuidv4} = require('uuid');
+var localSessionId;
 const login = async(req,res)=>{
     res.render('../views/admin/login',{title: "Sign In"});
 }
@@ -10,6 +11,8 @@ const postLogin = (req,res)=> {
         if(req.body.username == "admin@researchbase" && req.body.password == "admin")
         {
             req.session.user = req.body.username;
+            req.session.session_id = uuidv4();
+            localSessionId = req.session.session_id;
             res.redirect('/admin/dashboard');
         }    
     }
@@ -19,7 +22,7 @@ const postLogin = (req,res)=> {
     }
 }
 const dashboard = async(req,res)=>{
-    if(req.session.user)
+    if(req.session.session_id = localSessionId)
     {
         res.render('../views/admin/dashboard',{user:'admin'});
     }
@@ -36,6 +39,7 @@ const logout = async(req,res) => {
         }
         else 
         {
+          localSessionId = 00000000-0000-0000-0000-000000000000;  
           res.redirect('/');
         }
       });

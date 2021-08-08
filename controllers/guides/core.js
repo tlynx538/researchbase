@@ -5,6 +5,7 @@ const dashboard = async(req,res) => {
     {
       const results = await db.query('SELECT admin_approve,is_guide_registered FROM guides WHERE guide_id=$1',[req.session.user]);
       console.log(results.rows[0]);
+      console.log(req.session.user);
       if(results.rows[0].is_guide_registered == true )
         res.render('../views/guides/dashboard.pug',{user:req.session.user});
       else 
@@ -34,6 +35,22 @@ const postApprove = async(req,res) => {
   } 
 }
 
+const getSchedule = async(req,res) =>{
+  scholars = await showAllScholars(req.session.user);
+  res.render('../views/guides/schedule/create',{scholar_list: scholars});
+}
+
+const postSchedule = async(req,res) =>{
+  console.log(req.body);
+  res.send("Schedule Received!");
+}
+
+const showAllScholars = async(guide_id) => {
+  const scholar = await db.query("SELECT * FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1",[guide_id]);
+  console.log(scholar.rows);
+  return scholar.rows;
+}
+
 const showAllScholarsbyGuideNotApprove = async(guide_id) => {
   console.log("Guide ID:"+guide_id);
   const scholar = await db.query("SELECT * FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1 AND GUIDE_APPROVE=false",[guide_id]);
@@ -41,4 +58,4 @@ const showAllScholarsbyGuideNotApprove = async(guide_id) => {
   return scholar.rows;
 }
 
-module.exports = {dashboard,approve,postApprove};  
+module.exports = {dashboard,approve,postApprove,getSchedule,postSchedule};  

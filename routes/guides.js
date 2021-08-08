@@ -13,6 +13,10 @@ router.post('/login',guideControllers.postLogin);
 router.get('/logout',guideControllers.logout);
 
 router.get('/dashboard',guideCore.dashboard);
+router.get('/schedule/create',guideCore.getSchedule);
+router.post('/schedule/create',guideCore.postSchedule);
+
+
 router.get('/approve',guideCore.approve);
 router.get('/approve/:id',guideCore.postApprove);
 
