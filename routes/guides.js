@@ -15,9 +15,10 @@ router.get('/logout',guideControllers.logout);
 router.get('/dashboard',guideCore.dashboard);
 router.get('/schedule/create',guideCore.getSchedule);
 router.post('/schedule/create',guideCore.postSchedule);
+router.get('/schedule/view',guideCore.viewSchedule);
+router.get('/schedule/cancel/:id',guideCore.cancelSchedulebyId);
 
-
-router.get('/approve',guideCore.approve);
+router.get('/approve',guideCore.getApprove);
 router.get('/approve/:id',guideCore.postApprove);
 
 //router.get('/',guideControllers.getGuides);

@@ -2,6 +2,10 @@ extends ../guideLayout
 block content 
     div(class="p-3 col")
         main(class="jumbotron jumbotron-fluid")
+            if(message.length)
+                div(class="alert alert-primary alert-dismissible fade show",role="alert")
+                    strong #{message}
+                    p Thank You!
             h1(class="display-4") Schedule an Event 
             p(class="lead") Use the below options to schedule an event
             form(method="POST", action="/guides/schedule/create",class="form-signin")                        
@@ -14,14 +18,14 @@ block content
                     div(class="text-muted") Click here to Select  
                   each item in scholar_list
                     option(value=item.scholar_id) #{item.scholar_name}               
-              label(class="p-1",for="date-event") Date of Event:      
-              input(class="p-1",type="date",id="date-event",name="date-event")
-              label(class="p-1",for="time-event") Time of Event:       
-              input(class="p-1",type="time",id="time-event",name="time-event")
+              label(class="p-1",for="dateEvent") Date of Event:      
+              input(class="p-1",type="date",id="dateEvent",name="dateEvent")
+              label(class="p-1",for="timeEvent") Time of Event:       
+              input(class="p-1",type="time",id="timeEvent",name="timeEvent")
               br
               br
-              label(for="event-description") Description: 
-              textarea(class="form-control" id="event-description",rows=3)
+              label(for="eventDescription") Description: 
+              textarea(class="form-control" id="eventDescription",rows=3,name="eventDesc")
               br
               button(class="btn btn-outline-primary btn-block",type="submit") Schedule
   

@@ -1,0 +1,18 @@
+extends ../guideLayout
+block content 
+    div(class="p-3 col")                                              
+        main(class="jumbotron jumbotron-fluid")
+            h1(class="display-4") View or Cancel Schedules 
+            p(class="lead") Use the below options to edit or view schedules    
+        div(class="container-fluid")
+          each item in schedule_list
+              div(class="border border-light")
+                div(class="bg-light p-2")
+                  div(class="row")
+                    div(class="col")
+                      p #{item.name_of_event}
+                    div(class="col")
+                      p(class="text-muted") #{item.body}                      
+                    div(class="col-lg-1")  
+                      a(class="btn btn-outline-warning",href='/guides/schedule/cancel/' +item.schedule_id) Cancel  
+                  p(class="text-muted") #{item.scholar_email} 
