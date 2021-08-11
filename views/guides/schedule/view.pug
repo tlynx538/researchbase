@@ -4,15 +4,21 @@ block content
         main(class="jumbotron jumbotron-fluid")
             h1(class="display-4") View or Cancel Schedules 
             p(class="lead") Use the below options to edit or view schedules    
-        div(class="container-fluid")
+        div(class="p-1 overflow-auto container-fluid")
           each item in schedule_list
               div(class="border border-light")
                 div(class="bg-light p-2")
                   div(class="row")
                     div(class="col")
                       p #{item.name_of_event}
+                    div(class="row")
+                      div(class="col")
+                        p Name: #{item.scholar_name}
+                      div(class="col")
+                        p Email: #{item.scholar_email}        
                     div(class="col")
                       p(class="text-muted") #{item.body}                      
                     div(class="col-lg-1")  
-                      a(class="btn btn-outline-warning",href='/guides/schedule/cancel/' +item.schedule_id) Cancel  
-                  p(class="text-muted") #{item.scholar_email} 
+                      a(class="btn btn-warning",href='/guides/schedule/cancel/' +item.schedule_id) Cancel 
+                br
+                 
