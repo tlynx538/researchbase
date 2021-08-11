@@ -1,18 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const scholarControllers = require('../controllers/scholars')
-router.get('/signup',scholarControllers.signUp);
-router.post('/signup',scholarControllers.postSignUp);
-router.get('/login',scholarControllers.login);
-router.get('/register',scholarControllers.getRegistration);
-router.post('/register',scholarControllers.postRegistration);
-router.get('/dashboard',scholarControllers.dashboard);
-router.post('/login',scholarControllers.postLogin);
-router.get('/logout',scholarControllers.logout);
 
-// API Routes
-router.get('/',scholarControllers.getScholars);
-router.get('/:id',scholarControllers.getScholarById);
-router.post('/',scholarControllers.postScholar);
-router.get('/delete/:id',scholarControllers.delScholar);
+const authControllers = require('../controllers/scholars/auth')
+const coreControllers = require('../controllers/scholars/core')
+router.get('/signup',authControllers.getSignUp);
+router.post('/signup',authControllers.postSignUp);
+router.get('/login',authControllers.getLogin);
+router.post('/login',authControllers.postLogin);
+router.get('/logout',authControllers.logout);
+router.get('/register',authControllers.getRegistration);
+router.post('/register',authControllers.postRegistration);
+
+router.get('/dashboard',coreControllers.dashboard);
+
 module.exports = router;

@@ -12,26 +12,23 @@ html
             .container-fluid
                 a(class="navbar-brand",href="/guides/dashboard") Researchbase        
             div(class="p-2")                  
-                a(class="btn btn-outline-primary",href="/guides/logout") Logout
+                a(class="btn btn-outline-primary",href="/scholars/logout") Logout
 
 
         div(class="container-fluid")
             div(class="row")
                 div(class="flex-shrink-0 p-3 text-white bg-primary",style="width: 200px") 
                     ul(class="nav nav-pills flex-column mb-auto")
-                        h5(class="text-white") Scholar Management
+                        h5(class="text-white") Thesis Management 
                         hr
-
-                        a(class="text-white",type="button",style="text-decoration: none") View 
-                        a(class="text-white",type="button",style="text-decoration: none",href="/guides/approve") Approve 
-                 
-            
+                        a(class="text-white",type="button",style="text-decoration: none",href="#") Submit
+                        a(class="text-white",type="button",style="text-decoration: none",href="#") Delete                           
+                        a(class="text-white",type="button",style="text-decoration: none",href="#") Show Remarks  
+                        
                         hr(class="my-4")
                         h5(class="text-white") Schedule
-                        hr
-
-                        a(class="text-white",type="button",style="text-decoration: none",href="/guides/schedule/create") Schedule an Event  
-                        a(class="text-white",type="button",style="text-decoration: none",href="/guides/schedule/view") View or Cancel an Event  
+                        hr 
+                        a(class="text-white",type="button",style="text-decoration: none",href="#") View your Events   
 
                         hr                                    
                 block content

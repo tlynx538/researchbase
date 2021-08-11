@@ -1,11 +1,8 @@
-extends ../layout
+extends scholarLayout
 
-block content
-    body
-        nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
-            .container-fluid
-                a(class="navbar-brand",href="#") Researchbase          
-            div(class="p-2")                  
-                a(class="btn btn-outline-primary",href="/scholars/logout") Logout 
-        div(class="position-absolute top-50 start-50 translate-middle") 
-            h1(class="h3 mb-3 font-weight-normal") Welcome! #{user}    
+block content 
+    div(class="p-3 col")                                              
+        main(class="jumbotron jumbotron-fluid")
+            h1(class="display-4") Welcome to the Scholar Interface 
+            p(class="lead") This Interface will allow you to submit thesis and know schedules!
+            hr(class="my-4")  
