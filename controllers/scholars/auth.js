@@ -2,6 +2,8 @@ const db = require('../../utils/db');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(12);
 const transporter = require('../../utils/mail');
+const {v4:uuidv4} = require('uuid');
+var localSessionId;
 
 const getLogin = (req,res) =>{
     res.render('../views/scholars/login.pug',{title: 'Sign In as Scholar',message:''});
@@ -9,14 +11,19 @@ const getLogin = (req,res) =>{
 
 const postLogin = async(req,res) => {
     try{
-        const results = await db.query('SELECT scholar_email,scholar_password FROM scholar WHERE scholar_email = $1',[req.body.username]);
+        const results = await db.query('SELECT scholar_id,scholar_email,scholar_password FROM scholar WHERE scholar_email = $1',[req.body.username]);
+        console.log(results);
         if(results.rows.length > 0)
         {
             var username = results.rows[0]['scholar_email'];
             var hash = results.rows[0]['scholar_password'];
+            var scholar_id = results.rows[0]['scholar_id'];
             if(req.body.username == username && await bcrypt.compareSync(req.body.password,hash))
             {
-                req.session.user=req.body.username;
+                req.session.user=scholar_id;
+                req.session.email=req.body.username;
+                req.session.session_id = uuidv4();
+                localSessionId = req.session.session_id;
                 res.redirect('/scholars/dashboard');
             }
             else 
@@ -42,8 +49,18 @@ const postSignUp = async(req,res)=>{
     {
       var hash = await bcrypt.hashSync(req.body.password,salt);
       var results = await db.query('INSERT INTO SCHOLAR (scholar_email,scholar_password,scholar_guide_id) values ($1,$2,$3) RETURNING *',[req.body.username,hash,req.body.guide]);
-      req.session.user=req.body.username;
-      res.redirect('/scholars/register');
+      try 
+      {
+        req.session.user=results.rows[0].scholar_id;
+        req.session.email = results.rows[0].scholar_email;
+        req.session.session_id = uuidv4();
+        localSessionId = req.session.session_id;
+        res.redirect('/scholars/register');
+      }
+      catch(err)
+      {
+          console.log(err);
+      }
     }
   
     catch(err)
@@ -53,7 +70,7 @@ const postSignUp = async(req,res)=>{
 }
 
 const getRegistration = async(req,res) =>{
-    if(req.session.user)
+    if(req.session.session_id == localSessionId)
     {
       college_list = await showAllColleges();
       department_list = await showAllDepartments();
@@ -66,14 +83,16 @@ const getRegistration = async(req,res) =>{
 }
 
 const postRegistration = async(req,res) => {
-    if(req.session.user)
+    if(req.session.session_id == localSessionId)
     {
       try 
       {
-          var results = await db.query('UPDATE SCHOLAR SET scholar_name=$1, scholar_phone=$2, scholar_usn=$3, scholar_college_id=$5, scholar_department_id=$6, is_scholar_registered=true WHERE scholar_email=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user,req.body.college,req.body.department]);
+          console.log(req.body);
+          console.log(req.session);
+          var results = await db.query('UPDATE SCHOLAR SET scholar_name=$1, scholar_phone=$2, scholar_usn=$3, scholar_college_id=$5, scholar_department_id=$6, is_scholar_registered=true WHERE scholar_id=$4 RETURNING *',[req.body.name,req.body.phone,req.body.usn,req.session.user,req.body.college,req.body.department]);
           try 
           { 
-              sendScholarMail(req.session.user,"Thank you for registering on Researchbase!",`Dear ${req.body.name}, \nThank you for registering on Researchbase. Hope you have a great experience.`);
+              sendScholarMail(req.session.email,"Thank you for registering on Researchbase!",`Dear ${req.body.name}, \nThank you for registering on Researchbase. Hope you have a great experience.`);
           }
           catch(err)
           {
@@ -99,6 +118,7 @@ const logout = (req,res) =>{
         }
         else 
         {
+          SlocalSessionId = 00000000-0000-0000-0000-000000000000;             
           res.redirect('/');
         }
       });

@@ -12,5 +12,5 @@ router.get('/register',authControllers.getRegistration);
 router.post('/register',authControllers.postRegistration);
 
 router.get('/dashboard',coreControllers.dashboard);
-
+router.get('/schedule/view',coreControllers.viewSchedules);
 module.exports = router;

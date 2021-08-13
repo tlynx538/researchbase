@@ -1,0 +1,29 @@
+extends ../scholarLayout
+block content 
+    div(class="p-3 col")                                              
+        main(class="jumbotron jumbotron-fluid")
+            h1(class="display-4") View or Cancel Schedules 
+            p(class="lead") Use the below options to edit or view schedules
+            - function prettyDate(dateString) {
+                - var date = dateString.toString().slice(0,15);
+                - return date;
+            -}
+            - function prettyTime(timeString) {
+                - var time = timeString.toString().slice(0,8);
+                - return time;
+            -}    
+            hr 
+        div(class="p-1 overflow-auto container-fluid")
+          each item in schedule_list
+            div(class="border border-light")
+                div(class="bg-light p-2")
+                  div(class="row")
+                    div(class="col")
+                        p #{item.name_of_event}
+                    div(class="col")
+                        p Date: #{prettyDate(item.date_of_event)}
+                        p Time: #{prettyTime(item.time_of_event)}
+                  div(class="row")           
+                    div(class="col")
+                        p(class="text-muted") #{item.body} 
+            br                      

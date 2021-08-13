@@ -38,7 +38,7 @@ const postLogin = async(req,res) => {
 }
 
   const getRegistration = async(req,res) =>{
-      if(req.session.session_id = localSessionId)
+      if(req.session.session_id == localSessionId)
       {
         college_list = await showAllColleges();
         department_list = await showAllDepartments();
@@ -51,7 +51,7 @@ const postLogin = async(req,res) => {
   }
 
   const postRegistration = async(req,res) => {
-      if(req.session.session_id = localSessionId)
+      if(req.session.session_id == localSessionId)
       {
         try 
         {

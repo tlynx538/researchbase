@@ -83,6 +83,8 @@ const postSchedule = async(req,res) =>{
   res.render('../views/guides/schedule/create',{scholar_list:scholars,message:"Your schedule has been added"});
 }
 
+
+
 const getScholarNameEmail = async(guide_id,scholar_id) => {
   const results = await db.query("SELECT SCHOLAR_NAME, SCHOLAR_EMAIL FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1 AND SCHOLAR_ID=$2",[guide_id,scholar_id]);
   return results.rows[0];
@@ -107,7 +109,7 @@ const showAllScholarsbyGuideNotApprove = async(guide_id) => {
 }
 
 const showAllScheduleswithScholarNames = async(guide_id) => {
-    const schedules = await db.query("SELECT SCHOLAR.SCHOLAR_NAME, SCHOLAR.SCHOLAR_EMAIL, SCHEDULE.SCHEDULE_ID, SCHEDULE.NAME_OF_EVENT, SCHEDULE.DATE_OF_EVENT, SCHEDULE.TIME_OF_EVENT, SCHEDULE.BODY FROM SCHOLAR, SCHEDULE WHERE SCHEDULE.GUIDE_ID=$1 AND SCHEDULE.IS_CANCELLED=false",[guide_id]);
+    const schedules = await db.query("SELECT SCHOLAR.SCHOLAR_NAME, SCHOLAR.SCHOLAR_EMAIL, SCHEDULE.SCHEDULE_ID, SCHEDULE.NAME_OF_EVENT, SCHEDULE.DATE_OF_EVENT, SCHEDULE.TIME_OF_EVENT, SCHEDULE.BODY FROM SCHOLAR, SCHEDULE WHERE SCHEDULE.GUIDE_ID=$1 AND SCHEDULE.SCHOLAR_ID=SCHOLAR.SCHOLAR_ID AND SCHEDULE.IS_CANCELLED=false",[guide_id]);
     console.log(schedules.rows);
     return schedules.rows;
 }
