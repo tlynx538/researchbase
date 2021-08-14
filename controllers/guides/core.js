@@ -99,7 +99,10 @@ const cancelSchedulebyId = async(req,res) =>{
     }
     
     const guide_email = await getGuideEmail(req.session.user);
-    sendMail(guide_email,`Event has been cancelled`,`Your event has been cancelled`);
+    const deletedScheduleDetails = await scheduleEventName(req.params.id);
+    console.log(deletedScheduleDetails);
+    sendMail(guide_email,`Event ${deletedScheduleDetails.name_of_event} has been cancelled`,`Your event ${deletedScheduleDetails.name_of_event} has been cancelled successfully`);
+    sendMail(deletedScheduleDetails.scholar_email,`Event ${deletedScheduleDetails.name_of_event} has been cancelled`,`Your guide has cancelled an event ${deletedScheduleDetails.name_of_event}`);
     res.redirect('/guides/schedule/view');
   } 
 }
@@ -141,13 +144,12 @@ const showAllScheduleswithScholarNames = async(guide_id) => {
     return schedules.rows;
 }
 
-/*
-const showAllScheduleswithScholarNamesbyScheduleId = async(guide_id,schedule_id) => {
-  const schedules = await db.query("SELECT SCHOLAR.SCHOLAR_NAME, SCHOLAR.SCHOLAR_EMAIL, SCHEDULE.SCHEDULE_ID, SCHEDULE.NAME_OF_EVENT, SCHEDULE.DATE_OF_EVENT, SCHEDULE.TIME_OF_EVENT, SCHEDULE.BODY FROM SCHOLAR, SCHEDULE WHERE SCHEDULE.GUIDE_ID=$1 AND SCHEDULE.SCHOLAR_ID=SCHOLAR.SCHOLAR_ID AND SCHEDULE.IS_CANCELLED=false AND SCHEDULE.SCHEDULE_ID=$2",[guide_id,schedule_id]);
-  console.log(schedules);
-  return schedules.rows;
+
+const scheduleEventName = async(schedule_id) => {
+  const resultEventName = await db.query("SELECT SCHEDULE.NAME_OF_EVENT, SCHEDULE.SCHOLAR_ID,SCHOLAR.SCHOLAR_ID, SCHOLAR.SCHOLAR_EMAIL FROM SCHEDULE, SCHOLAR WHERE SCHEDULE_ID=$1 AND SCHEDULE.SCHOLAR_ID=SCHOLAR.SCHOLAR_ID",[schedule_id]);
+  return resultEventName.rows[0]
 }
-*/
+
 
 function sendMail (to,subject,body)
 {
