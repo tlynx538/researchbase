@@ -69,9 +69,10 @@ const postSchedule = async(req,res) =>{
   try
   {
     const scholarDetails = await getScholarNameEmail(req.session.user,req.body.student);
-    console.log(scholarDetails);
     const guide = await getGuideName(req.session.user);
+    const guide_email = await getGuideEmail(req.session.user);
     sendMail(scholarDetails.scholar_email,`"${req.body.eventName}" has been assigned to you`,`Hello ${scholarDetails.scholar_name}, \nYour Guide Dr.${guide.guide_name}, has scheduled an event\n\nEvent Name: "${req.body.eventName}".\nEvent Description: ${req.body.eventDesc} \nPlease login to your profile to check the same.`);
+    sendMail(guide_email,`"${req.body.eventName}" has been assigned by you`,`Dear Dr. ${guide.guide_name}, \nYou scheduled an event\nEvent Name: "${req.body.eventName}".\nEvent Description: ${req.body.eventDesc}\nAssigned to: ${scholarDetails.scholar_name} \nPlease login to your profile to check the same.`);
   }
   catch(err)
   {
@@ -81,6 +82,26 @@ const postSchedule = async(req,res) =>{
   }
   scholars = await showAllScholars(req.session.user);
   res.render('../views/guides/schedule/create',{scholar_list:scholars,message:"Your schedule has been added"});
+}
+
+
+const cancelSchedulebyId = async(req,res) =>{
+  if(req.session.user)
+  {
+    try
+    {
+      const results = await db.query('UPDATE SCHEDULE SET is_cancelled=true WHERE schedule_id=$1',[req.params.id]);
+    }
+    catch(err)
+    {
+      console.log(err);
+      res.send(err);
+    }
+    
+    const guide_email = await getGuideEmail(req.session.user);
+    sendMail(guide_email,`Event has been cancelled`,`Your event has been cancelled`);
+    res.redirect('/guides/schedule/view');
+  } 
 }
 
 
@@ -94,6 +115,12 @@ const getGuideName = async(guide_id) => {
   const guide_email = await db.query("SELECT GUIDE_NAME FROM GUIDES WHERE GUIDE_ID=$1",[guide_id]);
   console.log(guide_email.rows[0]);
   return guide_email.rows[0];
+}
+
+const getGuideEmail = async(guide_id) => {
+  const guide_email = await db.query("SELECT GUIDE_EMAIL FROM GUIDES WHERE GUIDE_ID=$1",[guide_id]);
+  console.log(guide_email.rows[0]);
+  return guide_email.rows[0].guide_email;
 }
 
 const showAllScholars = async(guide_id) => {
@@ -114,23 +141,13 @@ const showAllScheduleswithScholarNames = async(guide_id) => {
     return schedules.rows;
 }
 
-const cancelSchedulebyId = async(req,res) =>{
-    if(req.session.user)
-    {
-      try
-      {
-        const results = await db.query('UPDATE SCHEDULE SET is_cancelled=true WHERE schedule_id=$1',[req.params.id]);
-      }
-      catch(err)
-      {
-        console.log(err);
-        res.send(err);
-      }
-      res.redirect('/guides/schedule/view');
-    } 
+/*
+const showAllScheduleswithScholarNamesbyScheduleId = async(guide_id,schedule_id) => {
+  const schedules = await db.query("SELECT SCHOLAR.SCHOLAR_NAME, SCHOLAR.SCHOLAR_EMAIL, SCHEDULE.SCHEDULE_ID, SCHEDULE.NAME_OF_EVENT, SCHEDULE.DATE_OF_EVENT, SCHEDULE.TIME_OF_EVENT, SCHEDULE.BODY FROM SCHOLAR, SCHEDULE WHERE SCHEDULE.GUIDE_ID=$1 AND SCHEDULE.SCHOLAR_ID=SCHOLAR.SCHOLAR_ID AND SCHEDULE.IS_CANCELLED=false AND SCHEDULE.SCHEDULE_ID=$2",[guide_id,schedule_id]);
+  console.log(schedules);
+  return schedules.rows;
 }
-
-
+*/
 
 function sendMail (to,subject,body)
 {
