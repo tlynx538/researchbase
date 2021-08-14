@@ -31,6 +31,9 @@ const postApprove = async(req,res) => {
   {
     console.log(err);
   } 
+  const guideName = await getGuideName(req.session.user);
+  const scholarDetails = await getScholarNameEmail(req.session.user,req.params.id);
+  sendMail(scholarDetails.scholar_email,`You have been approved by your guide`,`Dear ${scholarDetails.scholar_name},\nYour Guide ${guideName.guide_name} has approved you to use Researchbase.\nHope you have a great experience!`); 
 }
 
 const viewSchedule = async(req,res) => {
@@ -127,7 +130,7 @@ const getGuideEmail = async(guide_id) => {
 }
 
 const showAllScholars = async(guide_id) => {
-  const scholar = await db.query("SELECT * FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1",[guide_id]);
+  const scholar = await db.query("SELECT * FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1 AND GUIDE_APPROVE=true",[guide_id]);
   console.log(scholar.rows);
   return scholar.rows;
 }
