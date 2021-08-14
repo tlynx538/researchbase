@@ -101,8 +101,8 @@ const cancelSchedulebyId = async(req,res) =>{
     const guide_email = await getGuideEmail(req.session.user);
     const deletedScheduleDetails = await scheduleEventName(req.params.id);
     console.log(deletedScheduleDetails);
-    sendMail(guide_email,`Event ${deletedScheduleDetails.name_of_event} has been cancelled`,`Your event ${deletedScheduleDetails.name_of_event} has been cancelled successfully`);
-    sendMail(deletedScheduleDetails.scholar_email,`Event ${deletedScheduleDetails.name_of_event} has been cancelled`,`Your guide has cancelled an event ${deletedScheduleDetails.name_of_event}`);
+    sendMail(guide_email,`Event "${deletedScheduleDetails.name_of_event}" has been cancelled`,`Your event ${deletedScheduleDetails.name_of_event} has been cancelled successfully`);
+    sendMail(deletedScheduleDetails.scholar_email,`Event "${deletedScheduleDetails.name_of_event}" has been cancelled`,`Your guide has cancelled an event ${deletedScheduleDetails.name_of_event}`);
     res.redirect('/guides/schedule/view');
   } 
 }
