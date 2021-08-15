@@ -14,7 +14,7 @@ app.set('view engine','pug');
 app.use(express.json());
 app.use(express.urlencoded({ extended:false }));
 app.use(cookieParser());
-app.use(morgan('dev'));
+app.use(morgan('combined'));
 app.use(session({
     secret:uuidv4(),
     resave: false,

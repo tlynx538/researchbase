@@ -1,0 +1,18 @@
+extends ../guideLayout 
+block content 
+    div(class="p-3 col")
+        main(class="jumbotron jumbotron-fluid")
+            h1(class="display-4") View Scholar(s)
+            p(class="lead") This list of scholars shows the list of your scholars. 
+        div(class="container-fluid")
+          each item in scholars_list
+            div(class="border border-light")
+                div(class="bg-light p-2")
+                  div(class="row")
+                    div(class="col")
+                      p #{item.scholar_name}
+                    div(class="col")
+                      p #{item.scholar_email}
+                      p #{item.scholar_phone}
+                      p #{item.scholar_usn}          
+            br              

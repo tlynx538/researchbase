@@ -13,6 +13,7 @@ router.post('/login',guideControllers.postLogin);
 router.get('/logout',guideControllers.logout);
 
 router.get('/dashboard',guideCore.dashboard);
+router.get('/view',guideCore.getScholars);
 router.get('/schedule/create',guideCore.getSchedule);
 router.post('/schedule/create',guideCore.postSchedule);
 router.get('/schedule/view',guideCore.viewSchedule);

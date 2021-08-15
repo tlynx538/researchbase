@@ -1,5 +1,6 @@
 const db = require('../../utils/db');
 const transporter = require('../../utils/mail');
+
 const dashboard = async(req,res) => {
     if(req.session.user)
     {
@@ -15,6 +16,21 @@ const dashboard = async(req,res) => {
       res.send("Error: Unauthorized User!");
     }
   }
+
+const getScholars = async(req,res) =>
+{
+  try 
+  {
+    const results = await db.query("SELECT * FROM SCHOLAR WHERE GUIDE_APPROVE=true");
+    console.log(results.rows);
+    res.render('../views/guides/scholar/view.pug',{scholars_list:results.rows});
+  }
+  catch(err)
+  {
+    console.log(err);
+  }
+}
+
 
 const getApprove = async(req,res) => {
     scholars = await showAllScholarsbyGuideNotApprove(req.session.user);
@@ -111,7 +127,7 @@ const cancelSchedulebyId = async(req,res) =>{
 }
 
 
-
+// API Related Functions
 const getScholarNameEmail = async(guide_id,scholar_id) => {
   const results = await db.query("SELECT SCHOLAR_NAME, SCHOLAR_EMAIL FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1 AND SCHOLAR_ID=$2",[guide_id,scholar_id]);
   return results.rows[0];
@@ -153,7 +169,7 @@ const scheduleEventName = async(schedule_id) => {
   return resultEventName.rows[0]
 }
 
-
+// Mail Functions
 function sendMail (to,subject,body)
 {
     var mailOptions =
@@ -174,4 +190,4 @@ function sendMail (to,subject,body)
 }
 
 
-module.exports = {dashboard,getApprove,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId};  
+module.exports = {dashboard,getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId};  
