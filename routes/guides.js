@@ -14,6 +14,9 @@ router.get('/logout',guideControllers.logout);
 
 router.get('/dashboard',guideCore.dashboard);
 router.get('/view',guideCore.getScholars);
+
+router.get('/profile/view',guideCore.getProfile);
+
 router.get('/schedule/create',guideCore.getSchedule);
 router.post('/schedule/create',guideCore.postSchedule);
 router.get('/schedule/view',guideCore.viewSchedule);

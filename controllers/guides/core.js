@@ -2,11 +2,12 @@ const db = require('../../utils/db');
 const transporter = require('../../utils/mail');
 
 const dashboard = async(req,res) => {
+    const guideName = await getGuideName(req.session.user);
     if(req.session.user)
     {
       const results = await db.query('SELECT admin_approve,is_guide_registered FROM guides WHERE guide_id=$1',[req.session.user]);
       if(results.rows[0].is_guide_registered == true )
-        res.render('../views/guides/dashboard.pug',{user:req.session.user});
+        res.render('../views/guides/dashboard.pug',{user:guideName.guide_name});
       else 
         res.redirect('/guides/register');
     }
@@ -31,6 +32,18 @@ const getScholars = async(req,res) =>
   }
 }
 
+const getProfile = async(req,res) =>{
+  try 
+  {
+    const profile = await db.query("SELECT * FROM GUIDES WHERE GUIDE_ID=$1",[req.session.user]);
+    console.log(profile.rows[0]);
+    res.render('../views/guides/profile.pug',{profile:profile.rows[0]});
+  }
+  catch(err)
+  {
+    console.log(err);
+  }
+}
 
 const getApprove = async(req,res) => {
     scholars = await showAllScholarsbyGuideNotApprove(req.session.user);
@@ -190,4 +203,4 @@ function sendMail (to,subject,body)
 }
 
 
-module.exports = {dashboard,getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId};  
+module.exports = {dashboard,getProfile,getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId};  

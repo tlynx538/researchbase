@@ -1,0 +1,15 @@
+extends guideLayout
+block content 
+    div(class="p-3 col")                                              
+        main(class="jumbotron jumbotron-fluid")
+            h1(class="display-4") Your Profile
+            p(class="lead") This Page Shows Your Profile 
+            hr(class="my-4")
+            div(class="border border-light")
+                div(class="bg-light p-2")
+                    h2 Dr. #{profile.guide_name} 
+                    hr 
+                    h6 Guide Email: #{profile.guide_email}
+                    h6 Guide Phone: #{profile.guide_phone}
+                    h6 Guide USN: #{profile.guide_usn}
+
