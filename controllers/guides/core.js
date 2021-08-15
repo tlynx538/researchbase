@@ -21,7 +21,7 @@ const getScholars = async(req,res) =>
 {
   try 
   {
-    const results = await db.query("SELECT * FROM SCHOLAR WHERE GUIDE_APPROVE=true");
+    const results = await db.query("SELECT * FROM SCHOLAR WHERE GUIDE_APPROVE=true AND SCHOLAR_GUIDE_ID=$1",[req.session.user]);
     console.log(results.rows);
     res.render('../views/guides/scholar/view.pug',{scholars_list:results.rows});
   }
