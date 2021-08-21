@@ -6,15 +6,16 @@ const dashboard = async(req,res) => {
     if(req.session.user)
     {
       const results = await db.query('SELECT admin_approve,is_guide_registered FROM guides WHERE guide_id=$1',[req.session.user]);
+      const profile = await db.query("SELECT * FROM GUIDES WHERE GUIDE_ID=$1",[req.session.user]);
       if(results.rows[0].is_guide_registered == true )
-        res.render('../views/guides/dashboard.pug',{user:guideName.guide_name});
+        res.render('../views/guides/dashboard.pug',{user:guideName.guide_name,profile:profile.rows[0]});
       else 
         res.redirect('/guides/register');
     }
 
     else {
       console.log(req.session.user);
-      res.send("Error: Unauthorized User!");
+      res.status(404).send("Unauthorized Access");
     }
   }
 
@@ -29,21 +30,10 @@ const getScholars = async(req,res) =>
   catch(err)
   {
     console.log(err);
+    res.status(500).send(err);
   }
 }
 
-const getProfile = async(req,res) =>{
-  try 
-  {
-    const profile = await db.query("SELECT * FROM GUIDES WHERE GUIDE_ID=$1",[req.session.user]);
-    console.log(profile.rows[0]);
-    res.render('../views/guides/profile.pug',{profile:profile.rows[0]});
-  }
-  catch(err)
-  {
-    console.log(err);
-  }
-}
 
 const getApprove = async(req,res) => {
     scholars = await showAllScholarsbyGuideNotApprove(req.session.user);
@@ -59,6 +49,7 @@ const postApprove = async(req,res) => {
   catch(err)
   {
     console.log(err);
+    res.status(500).send(err);
   } 
   const guideName = await getGuideName(req.session.user);
   const scholarDetails = await getScholarNameEmail(req.session.user,req.params.id);
@@ -73,7 +64,7 @@ const viewSchedule = async(req,res) => {
   }
   else 
   {
-    res.send("Unauthorized Access");
+    res.status(401)
   }
 }
 
@@ -84,7 +75,7 @@ const getSchedule = async(req,res) =>{
     res.render('../views/guides/schedule/create',{scholar_list: scholars,message:''});
   }
   else 
-    res.send("Unauthorized Action");
+    res.status(401);
 }
 
 const postSchedule = async(req,res) =>{
@@ -95,6 +86,7 @@ const postSchedule = async(req,res) =>{
   catch(err)
   {
     console.log(err);
+    res.status(500).send(err);
     scholars = await showAllScholars(req.session.user);
     res.render('../views/guides/schedule/create',{scholar_list:scholars,message:"There was a problem adding your schedule, please check if you have entered correctly"});
   }
@@ -109,6 +101,7 @@ const postSchedule = async(req,res) =>{
   catch(err)
   {
     console.log(err);
+    res.status(500).send(err);
     scholars = await showAllScholars(req.session.user);
     res.render('../views/guides/schedule/create',{scholar_list:scholars,message:"There was a problem sending mail."});
   }
@@ -127,7 +120,7 @@ const cancelSchedulebyId = async(req,res) =>{
     catch(err)
     {
       console.log(err);
-      res.send(err);
+      res.status(500).send(err);
     }
     
     const guide_email = await getGuideEmail(req.session.user);
@@ -203,4 +196,4 @@ function sendMail (to,subject,body)
 }
 
 
-module.exports = {dashboard,getProfile,getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId};  
+module.exports = {dashboard,getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId};  

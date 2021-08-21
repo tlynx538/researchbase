@@ -1,8 +1,12 @@
 extends scholarLayout
-
 block content 
     div(class="p-3 col")                                              
         main(class="jumbotron jumbotron-fluid")
-            h1(class="display-4") Welcome to the Scholar Interface 
-            p(class="lead") This Interface will allow you to submit thesis and know schedules!
-            hr(class="my-4")  
+            h1(class="display-4") Hello, #{profile.scholar_name}
+            p(class="lead") Below are your details
+            hr(class="my-4")
+            div(class="p-2 row")
+                div(class="col")
+                    h6 Scholar Email: #{profile.scholar_email}
+                    h6 Scholar Phone: #{profile.scholar_phone}
+                    h6 Scholar USN: #{profile.scholar_usn}
