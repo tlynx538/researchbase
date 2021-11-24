@@ -28,12 +28,12 @@ const viewSchedules = async(req,res) =>
 
 const showAllSchedulesbyScholarId = async(scholar_id) =>{
   const results = await db.query("SELECT * FROM SCHEDULE WHERE SCHOLAR_ID=$1 AND IS_CANCELLED=false",[scholar_id]);
-  console.log(results.rows);
+  //console.log(results.rows);
   return results.rows;
 }
 const getGuideNamebyScholarId = async(guide_id) => {
   const guide_email = await db.query("SELECT GUIDES.GUIDE_NAME FROM GUIDES, SCHOLAR WHERE GUIDES.GUIDE_ID=SCHOLAR.SCHOLAR_GUIDE_ID",[guide_id]);
-  console.log(guide_email.rows[0]);
+  //console.log(guide_email.rows[0]);
   return guide_email.rows[0];
 }
 module.exports = {

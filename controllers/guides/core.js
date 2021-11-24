@@ -132,6 +132,22 @@ const cancelSchedulebyId = async(req,res) =>{
   } 
 }
 
+const getProfile = async(req,res) =>{
+  if(req.session.user)
+  {
+    const scholar = await showScholarDetailsById(req.session.user,req.params.id);
+    console.log(scholar);
+    res.render('../views/guides/scholar/profile',{scholar_list:scholar});
+  }
+  else 
+  {
+    res.status(401);
+  }
+}
+
+
+
+
 
 // API Related Functions
 const getScholarNameEmail = async(guide_id,scholar_id) => {
@@ -141,31 +157,36 @@ const getScholarNameEmail = async(guide_id,scholar_id) => {
 
 const getGuideName = async(guide_id) => {
   const guide_email = await db.query("SELECT GUIDE_NAME FROM GUIDES WHERE GUIDE_ID=$1",[guide_id]);
-  console.log(guide_email.rows[0]);
+  //console.log(guide_email.rows[0]);
   return guide_email.rows[0];
 }
 
 const getGuideEmail = async(guide_id) => {
   const guide_email = await db.query("SELECT GUIDE_EMAIL FROM GUIDES WHERE GUIDE_ID=$1",[guide_id]);
-  console.log(guide_email.rows[0]);
+  //console.log(guide_email.rows[0]);
   return guide_email.rows[0].guide_email;
 }
 
 const showAllScholars = async(guide_id) => {
   const scholar = await db.query("SELECT * FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1 AND GUIDE_APPROVE=true",[guide_id]);
-  console.log(scholar.rows);
+  //console.log(scholar.rows);
   return scholar.rows;
+}
+
+const showScholarDetailsById = async(guide_id,scholar_id) =>{
+  const scholar = await db.query("SELECT SCHOLAR.SCHOLAR_NAME,SCHOLAR.SCHOLAR_EMAIL,SCHOLAR.SCHOLAR_PHONE,SCHOLAR.SCHOLAR_USN,COLLEGE.COLLEGE_NAME,DEPARTMENT.DEPARTMENT_NAME FROM SCHOLAR,DEPARTMENT,COLLEGE WHERE SCHOLAR_ID=$1 AND SCHOLAR.SCHOLAR_COLLEGE_ID=COLLEGE.COLLEGE_ID AND SCHOLAR.SCHOLAR_DEPARTMENT_ID=DEPARTMENT.DEPARTMENT_ID AND SCHOLAR_GUIDE_ID=$2 AND GUIDE_APPROVE=true",[scholar_id,guide_id]);
+  return scholar.rows[0];
 }
 
 const showAllScholarsbyGuideNotApprove = async(guide_id) => {
   const scholar = await db.query("SELECT SCHOLAR.SCHOLAR_ID, SCHOLAR.SCHOLAR_NAME FROM SCHOLAR WHERE SCHOLAR.SCHOLAR_GUIDE_ID=$1 AND SCHOLAR.GUIDE_APPROVE=false",[guide_id]);
-  console.log(scholar.rows);
+  //console.log(scholar.rows);
   return scholar.rows;
 }
 
 const showAllScheduleswithScholarNames = async(guide_id) => {
     const schedules = await db.query("SELECT SCHOLAR.SCHOLAR_NAME, SCHOLAR.SCHOLAR_EMAIL, SCHEDULE.SCHEDULE_ID, SCHEDULE.NAME_OF_EVENT, SCHEDULE.DATE_OF_EVENT, SCHEDULE.TIME_OF_EVENT, SCHEDULE.BODY FROM SCHOLAR, SCHEDULE WHERE SCHEDULE.GUIDE_ID=$1 AND SCHEDULE.SCHOLAR_ID=SCHOLAR.SCHOLAR_ID AND SCHEDULE.IS_CANCELLED=false",[guide_id]);
-    console.log(schedules.rows);
+    //console.log(schedules.rows);
     return schedules.rows;
 }
 
@@ -196,4 +217,4 @@ function sendMail (to,subject,body)
 }
 
 
-module.exports = {dashboard,getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId};  
+module.exports = {dashboard,getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId,getProfile};  

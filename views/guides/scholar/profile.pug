@@ -1,0 +1,12 @@
+extends ../guideLayout 
+block content 
+    div(class="p-3 col")
+        div(class="card-body")
+            h1(class="display-4") #{scholar_list.scholar_name}
+            h5(class="lead") #{scholar_list.scholar_usn}
+            p(class="card-text") #{scholar_list.department_name}
+            h5(class="card-title") #{scholar_list.college_name}
+            hr
+            p(class="fw-bold") Contact details 
+            p #{scholar_list.scholar_phone}
+            p #{scholar_list.scholar_email}

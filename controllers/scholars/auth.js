@@ -118,7 +118,7 @@ const logout = (req,res) =>{
         }
         else 
         {
-          SlocalSessionId = 00000000-0000-0000-0000-000000000000;             
+          localSessionId = 00000000-0000-0000-0000-000000000000;             
           res.redirect('/');
         }
       });
