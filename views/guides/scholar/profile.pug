@@ -1,12 +1,26 @@
 extends ../guideLayout 
 block content 
-    div(class="p-3 col")
-        div(class="card-body")
-            h1(class="display-4") #{scholar_list.scholar_name}
-            h5(class="lead") #{scholar_list.scholar_usn}
-            p(class="card-text") #{scholar_list.department_name}
-            h5(class="card-title") #{scholar_list.college_name}
-            hr
-            p(class="fw-bold") Contact details 
-            p #{scholar_list.scholar_phone}
-            p #{scholar_list.scholar_email}
+    div(class="row")
+        div(class="col")
+            div(class="vr")
+                div(class="card-body")
+                    h3(class="display-6") #{scholar_list.scholar_name}'s Profile 
+                    h5(class="lead") #{scholar_list.scholar_usn}
+            div(class="card-body")
+                hr
+                h5 Ongoing tasks and schedules
+        div(class="col-6 p-3")
+            //- div(class="d-flex",style="height: 200px")
+            //-     div(class="vr")
+            div(class="card-body")
+                p(class="card-text") #{scholar_list.department_name}
+                h5(class="card-title") #{scholar_list.college_name}
+        div(class="col")
+            div(class="d-flex",style="height: 200px")
+                div(class="vr")
+                div(class="container")
+                    div(class="card-body")
+                        h5(class="lead text-muted") Contact Details
+                        h6(class="text-muted") Phone: #{scholar_list.scholar_phone}
+                        h6(class="text-muted") Email: #{scholar_list.scholar_email}
+            

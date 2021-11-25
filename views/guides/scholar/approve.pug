@@ -5,7 +5,7 @@ block content
             h1(class="display-4") Approve Scholar(s)
             p(class="lead") This list of scholars may be needing your approval. 
         hr      
-        div(class="container-fluid")
+        if(scholars_list.length)
           each item in scholars_list
               div(class="border border-light")
                 div(class="bg-light p-2")
@@ -14,4 +14,6 @@ block content
                       p #{item.scholar_name}
                     div(class="col-lg-1")  
                       a(class="btn btn-outline-primary",href='/guides/approve/'+item.scholar_id) Approve                      
-                  p(class="text-muted") #{item.scholar_email}                       
+                  p(class="text-muted") #{item.scholar_email}
+        else
+          p(class="lead") No scholar approvals at the moment.                         

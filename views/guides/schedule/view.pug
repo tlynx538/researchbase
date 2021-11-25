@@ -3,7 +3,7 @@ block content
     div(class="p-3 col")                                              
         main(class="jumbotron jumbotron-fluid")
             h1(class="display-4") View or Cancel Schedules 
-            p(class="lead") Use the below options to edit or view schedules 
+            p(class="lead") Use the below options to edit or cancel schedules 
             - function prettyDate(dateString) {
                 - var date = dateString.toString().slice(0,15);
                 - return date;
@@ -19,18 +19,19 @@ block content
                 div(class="bg-light p-2")
                   div(class="row")
                     div(class="col")
-                      p #{item.name_of_event}
-                    div(class="row")
-                      div(class="col")
-                        p Name: #{item.scholar_name}
-                      div(class="col")
-                        p Email: #{item.scholar_email}
-                      div(class="col")
-                        p Date: #{prettyDate(item.date_of_event)}
-                        p Time: #{prettyTime(item.time_of_event)}          
+                      h5 #{item.name_of_event}
+                      p Assigned To: #{item.scholar_name}
+                      if(item.body.length)
+                
+                        p(class="text-muted") Description: #{item.body}  
+                    //- div(class="col")
+                    //-   p Assigned To: #{item.scholar_name}
                     div(class="col")
-                      p(class="text-muted") #{item.body}                      
-                    div(class="col-lg-1")  
-                      a(class="btn btn-warning",href='/guides/schedule/cancel/' +item.schedule_id) Cancel 
+                      p Date: #{prettyDate(item.date_of_event)}
+                      p Time: #{prettyTime(item.time_of_event)}
+                    div(class="col-lg-1")
+                      div(class="btn-group-vertical")
+                        a(class="btn btn-outline-secondary",href="#") Edit  
+                        a(class="btn btn-danger mt-1",href='/guides/schedule/cancel/' +item.schedule_id) Cancel 
                 br
                  

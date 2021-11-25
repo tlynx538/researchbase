@@ -196,7 +196,7 @@ const scheduleEventName = async(schedule_id) => {
   return resultEventName.rows[0]
 }
 
-// Mail Functions
+//Mail Functions
 function sendMail (to,subject,body)
 {
     var mailOptions =

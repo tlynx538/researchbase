@@ -5,21 +5,20 @@ block content
             h1(class="display-4") View Scholar(s)
             p(class="lead") This list of scholars shows the list of your scholars.
         hr     
-        div(class="container-fluid p-2")
+        if(scholars_list.length)
           each item in scholars_list
-            div(class="border border-primary p-1")
-                div(class="container")
-                  div(class="row")
-                    div(class="col")
-                        h5 #{item.scholar_name}
-                        p(class="h6 text-muted") #{item.scholar_usn}
-                    div(class="col p-1")
-                      h6 Current Task: Thesis Submission
-                      div(class="progress",style="width:600px")
-                        div(class="progress-bar",role="progressbar",style="width: 25%",aria-valuenow="25",aria-valuemin="0",aria-valuemax="100")   
-                    div(class="row")
-                      div(class="col-md-1 p-1")
-                        a(class="btn btn-primary",href="/guides/profile/"+item.scholar_id,style="width:90px") Profile
-                      div(class="col p-1") 
-                        a(class="btn btn-warning",href="#") View Tasks      
-            br          
+            div(class="border border-primary")
+              div(class="row p-2")
+                div(class="col")
+                    a(class="h5 text-decoration-none",href="/guides/profile/"+item.scholar_id) #{item.scholar_name}
+                    p(class="h6 text-muted") #{item.scholar_usn}
+                div(class="col")
+                    h6(class="text-muted") Thesis Topic
+                    h6 Example Topic 
+                div(class="col-6")
+                  h6 Current Task: Thesis Submission
+                  div(class="progress")
+                    div(class="progress-bar",role="progressbar",style="width: 25%",aria-valuenow="25",aria-valuemin="0",aria-valuemax="100")   
+            br
+          else
+            p(class="lead") No scholars at the moment.             
