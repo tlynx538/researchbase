@@ -93,6 +93,7 @@ const postRegistration = async(req,res) => {
           try 
           { 
               sendScholarMail(req.session.email,"Thank you for registering on Researchbase!",`Dear ${req.body.name}, \nThank you for registering on Researchbase. Hope you have a great experience.`);
+              // send notification mail to guide to approve the scholar.
           }
           catch(err)
           {

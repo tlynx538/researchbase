@@ -1,29 +1,13 @@
 const db = require('../../utils/db');
 const transporter = require('../../utils/mail');
 
-const dashboard = async(req,res) => {
-    const guideName = await getGuideName(req.session.user);
-    if(req.session.user)
-    {
-      const results = await db.query('SELECT admin_approve,is_guide_registered FROM guides WHERE guide_id=$1',[req.session.user]);
-      const profile = await db.query("SELECT * FROM GUIDES WHERE GUIDE_ID=$1",[req.session.user]);
-      if(results.rows[0].is_guide_registered == true )
-        res.render('../views/guides/dashboard.pug',{user:guideName.guide_name,profile:profile.rows[0]});
-      else 
-        res.redirect('/guides/register');
-    }
-
-    else {
-      console.log(req.session.user);
-      res.status(404).send("Unauthorized Access");
-    }
-  }
 
 const getScholars = async(req,res) =>
 {
   try 
   {
-    const results = await db.query("SELECT * FROM SCHOLAR WHERE GUIDE_APPROVE=true AND SCHOLAR_GUIDE_ID=$1",[req.session.user]);
+    // Change the select statement to only retrieve only selected details
+    const results = await db.query("SELECT SCHOLAR_ID, SCHOLAR_NAME, SCHOLAR_USN FROM SCHOLAR WHERE GUIDE_APPROVE=true AND SCHOLAR_GUIDE_ID=$1",[req.session.user]);
     console.log(results.rows);
     res.render('../views/guides/scholar/view.pug',{scholars_list:results.rows});
   }
@@ -217,4 +201,4 @@ function sendMail (to,subject,body)
 }
 
 
-module.exports = {dashboard,getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId,getProfile};  
+module.exports = {getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId,getProfile};  

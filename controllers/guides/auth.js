@@ -55,9 +55,9 @@ const postLogin = async(req,res) => {
       {
         try 
         {
-            console.log(req.body);
+            console.log(req.body.name);
             console.log(req.session);
-            var results = await db.query('UPDATE guides SET guide_name=$1, guide_phone=$2, guide_usn=$3, guide_college_id=$5, guide_department_id=$6, is_guide_registered=true WHERE guide_id=$4',[req.body.name,req.body.phone,req.body.usn,req.session.user,req.body.college,req.body.department]);
+            var results = await db.query('UPDATE guides SET guide_name=$1, guide_phone=$2, guide_college_id=$3, guide_department_id=$4 WHERE guide_id=$5',[req.body.name,req.body.phone,req.body.college,req.body.department,req.session.user]);
             try 
             { 
                 sendGuidesMail(req.session.email,"Thank you for registering on Researchbase!",`Dear ${req.body.name}, \nThank you for registering on Researchbase. Hope you have a great experience.`);
@@ -107,7 +107,23 @@ const postSignUp = async(req,res)=>{
       console.log(err);
     }
 }
+const dashboard = async(req,res) => {
+    if(req.session.session_id = localSessionId)
+    {
+      // const results = await db.query('SELECT admin_approve,is_guide_registered FROM guides WHERE guide_id=$1',[req.session.user]);
+      const guideName = await getGuideName(req.session.user); // redundant
+      const profile = await db.query("SELECT * FROM GUIDES WHERE GUIDE_ID=$1",[req.session.user]);
+      // if(results.rows[0].is_guide_registered == true )
+      res.render('../views/guides/dashboard.pug',{user:guideName.guide_name,profile:profile.rows[0]});
+      // else 
+      //   res.redirect('/guides/register');
+    }
 
+    else {
+      console.log(req.session.user);
+      res.status(404).send("Unauthorized Access");
+    }
+  }
 const logout = (req,res) =>{
     req.session.destroy((err)=>{
         if(err)
@@ -121,7 +137,7 @@ const logout = (req,res) =>{
         }
       });
 }
-
+// API Calls
 const showAllColleges = async() => {
     const colleges = await db.query("SELECT college_id,college_name FROM COLLEGE");
     return colleges.rows;
@@ -135,7 +151,11 @@ const showAllScholarsbyGuide = async(guide_id) => {
     const scholar = await db.query("SELECT * FROM SCHOLAR WHERE SCHOLAR_GUIDE_ID=$1",[guide_id]);
     return scholar.rows;
 }
-
+const getGuideName = async(guide_id) => {
+    const guide_email = await db.query("SELECT GUIDE_NAME FROM GUIDES WHERE GUIDE_ID=$1",[guide_id]);
+    //console.log(guide_email.rows[0]);
+    return guide_email.rows[0];
+  }
 // API Routes
 const getGuides = async(req,res)=>{
     try
@@ -229,5 +249,5 @@ function sendGuidesMail (to,subject,body)
 }
 
 module.exports = {
-    getGuides, getRegistration,postRegistration,login, signUp, postSignUp, logout, postLogin, getGuides, postGuides, getGuideById, delGuide
+    getGuides, getRegistration,postRegistration,login, signUp, postSignUp, logout, postLogin, getGuides, postGuides, getGuideById, delGuide, dashboard
 }

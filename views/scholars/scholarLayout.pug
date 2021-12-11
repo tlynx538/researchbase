@@ -12,28 +12,29 @@ html
     
     body 
         nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
-            .container-fluid
-                a(class="navbar-brand",href="/scholars/dashboard") Researchbase        
-            div(class="p-2")                  
-                a(class="btn btn-outline-primary",href="/scholars/logout") Logout
+            div(class="p-1")
+                a(class="p-2 navbar-brand",href="/scholars/dashboard") Researchbase
+                button(class="navbar-toggler",type="button",data-bs-toggle="collapse",data-bs-target="#navbarSupportedContent",aria-controls="navbarSupportedContent",aria-expanded="false",aria-label="Toggle navigation")
+                    span(class="navbar-toggler-icon")
+
+            div(class="collapse navbar-collapse",id="navbarSupportedContent")
+                ul(class="navbar-nav mr-auto")
+                    //- li(class="nav-item")
+                    //-     a(class="nav-link",href='/guides/view') Scholars
+                    //- li(class="nav-item")
+                    //-     a(class="nav-link",href='/guides/approve') Approval List
+                    li(class="nav-item dropdown")
+                        a(class="nav-link dropdown-toggle",href="#",id="navbarDropdown",role="button",data-bs-toggle="dropdown",aria-haspopup="true",aria-expanded="false") Submissions
+                        div(class="dropdown-menu",aria-labelledby="navbarDropdown")
+                            a(class="dropdown-item",href="#") Upload 
+                            a(class="dropdown-item" href="/scholars/schedule/view") Status
+                            div(class="dropdown-divider")
+                            a(class="dropdown-item", href="#") Cancel Submission
+            div(class="p-2")                    
+                a(class="btn btn-outline-primary",href="/guides/logout") Logout
 
 
-        div(class="container-fluid")
-            div(class="row")
-                div(class="flex-shrink-0 p-3 text-white bg-primary",style="width: 200px") 
-                    ul(class="nav nav-pills flex-column mb-auto")
-                        h5(class="text-white") Thesis Management 
-                        hr
-                        a(class="text-white",type="button",style="text-decoration: none",href="#") Submit
-                        a(class="text-white",type="button",style="text-decoration: none",href="#") Delete                           
-                        a(class="text-white",type="button",style="text-decoration: none",href="#") Show Remarks  
-                        
-                        hr(class="my-4")
-                        h5(class="text-white") Schedule
-                        hr 
-                        a(class="text-white",type="button",style="text-decoration: none",href="/scholars/schedule/view") View your Events   
-
-                        hr                                    
-                block content
+        div(class="container-fluid")                              
+            block content
      
       
