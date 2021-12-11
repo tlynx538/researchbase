@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const authControllers = require('../controllers/scholars/scholars')
 
-const authControllers = require('../controllers/scholars/auth')
-const coreControllers = require('../controllers/scholars/core')
 router.get('/signup',authControllers.getSignUp);
 router.post('/signup',authControllers.postSignUp);
 router.get('/login',authControllers.getLogin);
@@ -11,6 +10,6 @@ router.get('/logout',authControllers.logout);
 router.get('/register',authControllers.getRegistration);
 router.post('/register',authControllers.postRegistration);
 
-router.get('/dashboard',coreControllers.dashboard);
-router.get('/schedule/view',coreControllers.viewSchedules);
+router.get('/dashboard',authControllers.dashboard);
+router.get('/schedule/view',authControllers.viewSchedules);
 module.exports = router;
