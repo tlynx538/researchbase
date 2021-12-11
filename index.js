@@ -3,7 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-//const favicon = require('serve-favicon');
+
 const path = require('path');
 
 const app = express();

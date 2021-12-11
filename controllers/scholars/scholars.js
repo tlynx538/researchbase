@@ -6,7 +6,10 @@ const {v4:uuidv4} = require('uuid');
 var localSessionId;
 
 const getLogin = (req,res) =>{
-    res.render('../views/scholars/login.pug',{title: 'Sign In as Scholar',message:''});
+    if(req.session.session_id == localSessionId && (localSessionId != undefined && req.session.session_id != undefined))
+        res.redirect('/scholars/dashboard');
+    else
+        res.render('../views/scholars/login.pug',{title: 'Sign In as Scholar',message:''});
 }
 
 const postLogin = async(req,res) => {

@@ -1,4 +1,3 @@
-const express = require('express');
 const db = require('../../utils/db');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(12);
@@ -7,7 +6,10 @@ const {v4:uuidv4} = require('uuid');
 var localSessionId;
 
 const login = (req,res) => {
-    res.render('../views/guides/login.pug',{title: 'Sign In as Guide',message: ''});
+    if(req.session.session_id == localSessionId && (localSessionId != undefined && req.session.session_id != undefined))
+      res.redirect('/guides/dashboard');
+    else 
+      res.render('../views/guides/login.pug',{title: 'Sign In as Guide',message: ''});
 }
 
 const postLogin = async(req,res) => {
@@ -394,7 +396,6 @@ const scheduleEventName = async(schedule_id) => {
 //         });
 //     } 
 // }
-
 function sendGuidesMail(to,subject,body)
 {
     var mailOptions =
@@ -413,7 +414,6 @@ function sendGuidesMail(to,subject,body)
         }
       }); 
 }
-
 module.exports = {
     getRegistration,postRegistration,login, signUp, postSignUp, logout, postLogin, dashboard,
     getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId,getProfile

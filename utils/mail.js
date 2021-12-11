@@ -6,4 +6,5 @@ const transporter = nodemailer.createTransport({
       pass: 'jC77yttk!MDb'
     }
   });
+
 module.exports = transporter;
