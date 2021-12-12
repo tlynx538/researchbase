@@ -24,6 +24,7 @@ const postLogin = async(req,res) => {
             {
                 req.session.user=guide_id;
                 req.session.session_id = uuidv4();
+                req.session.user_type = 'guides';
                 localSessionId = req.session.session_id;
                 res.redirect('/guides/dashboard');
             }
@@ -95,6 +96,7 @@ const postSignUp = async(req,res)=>{
         req.session.user=results.rows[0].guide_id;
         req.session.email = results.rows[0].guide_email;
         req.session.session_id = uuidv4();
+        req.session.user_type = 'guides';
         localSessionId = req.session.session_id;
         res.redirect('/guides/register');
       }

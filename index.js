@@ -37,7 +37,12 @@ app.use('/scholars/',scholarRoutes);
 app.use('/admin/',adminRoutes); 
 //shows the main page of the application
 app.get('/',function(req,res){
-    res.render('index');
+    if(req.session.user_type == 'guides' && req.session.session_id != undefined)
+        res.redirect('/guides/dashboard');
+    else if(req.session.user_type == 'scholars' && req.session.session_id != undefined)
+        res.redirect('/scholars/dashboard');
+    else 
+        res.render('index');
 });
 app.get('/devs',(req,res)=>{
     res.render('developers');

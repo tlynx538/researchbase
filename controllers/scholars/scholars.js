@@ -26,6 +26,7 @@ const postLogin = async(req,res) => {
                 req.session.user=scholar_id;
                 req.session.email=req.body.username;
                 req.session.session_id = uuidv4();
+                req.session.user_type = 'scholars';
                 localSessionId = req.session.session_id;
                 res.redirect('/scholars/dashboard');
             }
@@ -57,6 +58,7 @@ const postSignUp = async(req,res)=>{
         req.session.user=results.rows[0].scholar_id;
         req.session.email = results.rows[0].scholar_email;
         req.session.session_id = uuidv4();
+        req.session.user_type = 'scholars';
         localSessionId = req.session.session_id;
         res.redirect('/scholars/register');
       }
