@@ -20,6 +20,10 @@ router.post('/schedule/create',guideControllers.postSchedule);
 router.get('/schedule/view',guideControllers.viewSchedule);
 router.get('/schedule/cancel/:id',guideControllers.cancelSchedulebyId);
 
+
+
+router.get('/schedule/major',guideControllers.getMajorSchedules);
+
 router.get('/approve',guideControllers.getApprove);
 router.get('/approve/:id',guideControllers.postApprove);
 

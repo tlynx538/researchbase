@@ -1,0 +1,36 @@
+extends ../guideLayout 
+block content 
+    div(class="p-3 col")
+        main(class="jumbotron jumbotron-fluid")
+            h1(class="display-4") Schedule Major Event 
+            p(class="lead") Use the drop down box to select the event and assign to your scholar.
+            //- change action to postMajorSchedule
+            form(method="POST", action="#",class="form-signin")
+                label(for="studentSelect") Schedule Type
+                div(class="input-group mb-3",id="ScheduleTypeSelect")
+                    select(class="form-select",aria-label="Default select example",name="schedule_type")
+                        option(selected)
+                            div(class="text-muted") Click here to select  
+                        each item in schedule_type_list
+                            option(value=item.schedule_id) #{item.schedule_type_name} 
+                label(for="studentSelect") Assign To
+                div(class="input-group mb-3",id="studentSelect")
+                    select(class="form-select",aria-label="Default select example",name="student")
+                        option(selected)
+                            div(class="text-muted") Click here to select  
+                        each item in scholar_list
+                            option(value=item.scholar_id) #{item.scholar_name}  
+                hr
+                label(for="scheduleSelect",class="lead") Set Deadline
+                br
+                br
+                label(class="p-1",for="dateEvent") Date:      
+                input(class="p-1",type="date",id="dateEvent",name="dateEvent")
+                label(class="p-1",for="timeEvent") Time:       
+                input(class="p-1",type="time",id="timeEvent",name="timeEvent")
+                br
+                br
+                label(for="eventDescription") Additional Notes: 
+                textarea(class="form-control" id="eventDescription",rows=3,name="eventDesc")
+                br
+                button(class="btn btn-outline-primary btn-block",type="submit") Schedule
