@@ -259,7 +259,7 @@ const getMajorSchedules = async(req,res) =>{
   {
     const scholars = await showAllScholars(req.session.user);
     const schedule_types = await showAllScheduleTypes();
-    res.render('../views/guides/schedule/major.pug',{scholar_list:scholars,schedule_type_list:schedule_types});
+    res.render('../views/guides/schedule/major.pug',{scholar_list:scholars,schedule_type_list:schedule_types,message:''});
   }
   else 
   {
@@ -271,36 +271,39 @@ const getMajorSchedules = async(req,res) =>{
 const postMajorSchedules = async(req,res) => {
   try
   {
-    const results = db.query('INSERT INTO schedule(name_of_event,guide_id,scholar_id,date_of_event,time_of_event,body,schedule_type_id) values($1,$2,$3,$4,$5,$6,$7)',[req.body.eventName,req.session.user,req.body.student,req.body.dateEvent,req.body.timeEvent,req.body.eventDesc,req.body.schedule_type]);
+    const results = await db.query('INSERT INTO schedule(guide_id,scholar_id,date_of_event,time_of_event,body,schedule_type_id) values($1,$2,$3,$4,$5,$6)',[req.session.user,req.body.student,req.body.dateEvent,req.body.timeEvent,req.body.eventDesc,req.body.schedule_type]);
+    try
+    {
+      const scholarDetails = await getScholarNameEmail(req.session.user,req.body.student);
+      const guide = await getGuideName(req.session.user);
+      const guide_email = await getGuideEmail(req.session.user);
+      const schedule_types = await showAllScheduleTypes();
+      const scholars = await showAllScholars(req.session.user);
+
+      sendGuidesMail(scholarDetails.scholar_email,`"${schedule_types[req.body.schedule_type].schedule_type_name}" has been assigned to you`,`Hello ${scholarDetails.scholar_name}, \nYour Guide Dr.${guide.guide_name}, has scheduled an event\n\nEvent Name: "${req.body.eventName}".\nEvent Description: ${req.body.eventDesc} \nPlease login to your profile to check the same.`);
+      sendGuidesMail(guide_email,`"${schedule_types[req.body.schedule_type].schedule_type_name}" has been assigned by you`,`Dear Dr. ${guide.guide_name}, \nYou scheduled an event\nEvent Name: "${req.body.eventName}".\nEvent Description: ${req.body.eventDesc}\nAssigned to: ${scholarDetails.scholar_name} \nPlease login to your profile to check the same.`);
+      
+      res.render('../views/guides/schedule/major',{schedule_type_list:schedule_types,scholar_list:scholars,message:"Your schedule has been added"});
+    }
+    catch(err)
+    {
+      console.log(err);
+      res.status(500).send(err);
+      scholars = await showAllScholars(req.session.user);
+      schedule_types = await showAllScheduleTypes();
+      res.render('../views/guides/schedule/create',{schedule_type_list:schedule_types,scholar_list:scholars,message:"There was a problem sending mail."});
+    }
   }
   catch(err)
   {
     console.log(err);
-    res.status(500).send(err);
+    //res.status(500).send(err);
     scholars = await showAllScholars(req.session.user);
     const schedule_types = await showAllScheduleTypes();
-    res.render('../views/guides/schedule/major',{schedule_type_list:schedule_types,scholar_list:scholars,message:"There was a problem adding your event, please check if you have entered correctly"});
+    res.status(500).render('../views/guides/schedule/major',{schedule_type_list:schedule_types,scholar_list:scholars,message:"There was a problem adding your event, please check if you have entered correctly"});
   }
-  try
-  {
-    const scholarDetails = await getScholarNameEmail(req.session.user,req.body.student);
-    const guide = await getGuideName(req.session.user);
-    const guide_email = await getGuideEmail(req.session.user);
-    sendGuidesMail(scholarDetails.scholar_email,`"${req.body.eventName}" has been assigned to you`,`Hello ${scholarDetails.scholar_name}, \nYour Guide Dr.${guide.guide_name}, has scheduled an event\n\nEvent Name: "${req.body.eventName}".\nEvent Description: ${req.body.eventDesc} \nPlease login to your profile to check the same.`);
-    sendGuidesMail(guide_email,`"${req.body.eventName}" has been assigned by you`,`Dear Dr. ${guide.guide_name}, \nYou scheduled an event\nEvent Name: "${req.body.eventName}".\nEvent Description: ${req.body.eventDesc}\nAssigned to: ${scholarDetails.scholar_name} \nPlease login to your profile to check the same.`);
-  }
-  catch(err)
-  {
-    console.log(err);
-    res.status(500).send(err);
-    scholars = await showAllScholars(req.session.user);
-    schedule_types = await showAllScheduleTypes();
-    res.render('../views/guides/schedule/create',{schedule_type_list:schedule_types,scholar_list:scholars,message:"There was a problem sending mail."});
-  }
-  scholars = await showAllScholars(req.session.user);
-  schedule_types = await showAllScheduleTypes();
-  res.render('../views/guides/schedule/major',{schedule_type_list:schedule_types,scholar_list:scholars,message:"Your schedule has been added"});
 }
+
 const logout = (req,res) =>{
     req.session.destroy((err)=>{
         if(err)
@@ -468,6 +471,6 @@ function sendGuidesMail(to,subject,body)
       }); 
 }
 module.exports = {
-    getRegistration,postRegistration,login, signUp, postSignUp, logout, postLogin, dashboard, getMajorSchedules,
+    getRegistration,postRegistration,login, signUp, postSignUp, logout, postLogin, dashboard, getMajorSchedules, postMajorSchedules,
     getApprove,getScholars,postApprove,viewSchedule,getSchedule,postSchedule,cancelSchedulebyId,getProfile
 }

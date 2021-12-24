@@ -2,6 +2,10 @@ extends ../guideLayout
 block content 
     div(class="p-3 col")
         main(class="jumbotron jumbotron-fluid")
+            if(message.length)
+                div(class="alert alert-primary alert-dismissible fade show",role="alert")
+                    strong #{message}
+                    p Thank You!
             h1(class="display-4") Schedule Major Event 
             p(class="lead") Use the drop down box to select the event and assign to your scholar.
             //- change action to postMajorSchedule

@@ -23,6 +23,7 @@ router.get('/schedule/cancel/:id',guideControllers.cancelSchedulebyId);
 
 
 router.get('/schedule/major',guideControllers.getMajorSchedules);
+router.post('/schedule/major',guideControllers.postMajorSchedules);
 
 router.get('/approve',guideControllers.getApprove);
 router.get('/approve/:id',guideControllers.postApprove);
